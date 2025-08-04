@@ -1,4 +1,4 @@
-.App {
+/*.App {
   text-align: center;
 }
 
@@ -35,4 +35,93 @@
   to {
     transform: rotate(360deg);
   }
+}
+*/
+/* Global Reset */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* KPOP Vibes: soft gradient background, stylish font */
+body {
+  font-family: 'Poppins', sans-serif;
+  background: linear-gradient(135deg, #fbe0ff, #d0f0ff);
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* Centered white card with glow */
+.App {
+  width: 100%;
+  max-width: 460px;
+  background: white;
+  padding: 2.5rem;
+  border-radius: 20px;
+  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
+  text-align: center;
+  animation: fadeIn 0.5s ease-in-out;
+}
+
+/* Animated soft entrance */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Pretty headers */
+h2 {
+  margin-bottom: 1.5rem;
+  color: #ff5ebc;
+  font-size: 2rem;
+  font-weight: 600;
+}
+
+/* Input fields styled */
+form input {
+  padding: 12px 14px;
+  font-size: 15px;
+  margin: 0.5rem 0;
+  border: 2px solid #eee;
+  border-radius: 12px;
+  width: 100%;
+  transition: border-color 0.3s ease;
+}
+
+form input:focus {
+  border-color: #ff8ae2;
+  outline: none;
+}
+
+/* Buttons: pink & bouncy */
+form button {
+  margin-top: 1rem;
+  background: linear-gradient(to right, #ff7de7, #ffb2f8);
+  color: white;
+  border: none;
+  font-size: 16px;
+  padding: 12px;
+  border-radius: 12px;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+form button:hover {
+  background: linear-gradient(to right, #ffb2f8, #ff7de7);
+}
+
+/* Message styling */
+p {
+  margin-top: 1rem;
+  font-weight: 500;
+  color: #555;
 }
