@@ -1,60 +1,22 @@
-/*.App {
-  text-align: center;
-}
-
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
-}
-
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
-}
-
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
-}
-
-.App-link {
-  color: #61dafb;
-}
-
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
-}
-*/
-/* Global Reset */
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
 }
 
-/* KPOP Vibes: soft gradient background, stylish font */
+/* K-pop Themed Global Styles */
 body {
-  font-family: 'Poppins', sans-serif;
+  font-family: 'Poppins', 'Segoe UI', sans-serif;
   background: linear-gradient(135deg, #fbe0ff, #d0f0ff);
   min-height: 100vh;
   display: flex;
   justify-content: center;
   align-items: center;
+  color: #333;
+  margin:0;
 }
 
-/* Centered white card with glow */
+/* Main container */
 .App {
   width: 100%;
   max-width: 460px;
@@ -66,7 +28,7 @@ body {
   animation: fadeIn 0.5s ease-in-out;
 }
 
-/* Animated soft entrance */
+/* Animated entrance */
 @keyframes fadeIn {
   from {
     opacity: 0;
@@ -78,7 +40,7 @@ body {
   }
 }
 
-/* Pretty headers */
+/* Section headers */
 h2 {
   margin-bottom: 1.5rem;
   color: #ff5ebc;
@@ -86,7 +48,7 @@ h2 {
   font-weight: 600;
 }
 
-/* Input fields styled */
+/* Form fields */
 form input {
   padding: 12px 14px;
   font-size: 15px;
@@ -102,7 +64,7 @@ form input:focus {
   outline: none;
 }
 
-/* Buttons: pink & bouncy */
+/* Buttons */
 form button {
   margin-top: 1rem;
   background: linear-gradient(to right, #ff7de7, #ffb2f8);
@@ -119,9 +81,64 @@ form button:hover {
   background: linear-gradient(to right, #ffb2f8, #ff7de7);
 }
 
-/* Message styling */
+/* Message display */
 p {
   margin-top: 1rem;
   font-weight: 500;
   color: #555;
+}
+
+.header {
+  background-color: #ffb6c1;
+  padding: 15px 30px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-radius: 12px;
+  margin-bottom: 20px;
+}
+
+.header h1 {
+  margin: 0;
+  font-size: 1.5rem;
+  color: #fff;
+}
+
+.header nav a {
+  margin-left: 20px;
+  text-decoration: none;
+  color: #fff;
+  font-weight: bold;
+  transition: opacity 0.2s;
+}
+
+.header nav a:hover {
+  opacity: 0.8;
+}
+
+.listings-page {
+  padding: 2rem;
+  text-align: center;
+}
+
+.listings-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 1.5rem;
+  margin-top: 2rem;
+}
+
+/* Sample card style for a photocard */
+.listings-container .card {
+  background: white;
+  border-radius: 15px;
+  padding: 1rem;
+  width: 200px;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+  transition: transform 0.2s;
+}
+
+.listings-container .card:hover {
+  transform: translateY(-5px);
 }

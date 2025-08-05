@@ -1,0 +1,26 @@
+.header {
+  background-color: #ffe4f2;
+  padding: 1rem 2rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-family: 'Segoe UI', sans-serif;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.header-title {
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: #d63384;
+}
+
+.header-links a {
+  margin-left: 1rem;
+  text-decoration: none;
+  color: #6f42c1;
+  font-weight: 500;
+}
+
+.header-links a:hover {
+  text-decoration: underline;
+}

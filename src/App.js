@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+/*import React, { useState } from 'react';
 import './App.css';
 
 function App() {
@@ -82,6 +82,57 @@ function App() {
 
       {message && <p>{message}</p>}
     </div>
+  );
+}
+
+export default App;
+
+import React, { useState } from 'react';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import RegisterPage from './pages/RegisterPage';
+import LoginPage from './pages/LoginPage';
+import HomePage from './pages/HomePage';
+import Header from './components/Header';
+import './App.css';
+
+
+function App() {
+  const [user, setUser] = useState(null); // after login/register
+
+  return (
+    <Router>
+      <Header user={user} />
+      <Routes>
+        <Route path="/" element={<HomePage user={user} />} />
+        <Route path="/register" element={<RegisterPage setUser={setUser} />} />
+        <Route path="/login" element={<LoginPage setUser={setUser} />} />
+      </Routes>
+    </Router>
+  );
+}
+
+export default App;
+*/
+import React, { useState } from 'react';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import RegisterPage from './pages/RegisterPage';
+import LoginPage from './pages/LoginPage';
+import HomePage from './pages/HomePage';
+import Header from './components/Header';
+import './App.css';
+
+function App() {
+  const [user, setUser] = useState(null); // after login/register
+
+  return (
+    <Router>
+      <Header user={user} />
+      <Routes>
+        <Route path="/" element={<HomePage user={user} />} />
+        <Route path="/register" element={<RegisterPage setUser={setUser} />} />
+        <Route path="/login" element={<LoginPage setUser={setUser} />} />
+      </Routes>
+    </Router>
   );
 }
 
