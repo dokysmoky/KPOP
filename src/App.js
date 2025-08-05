@@ -113,26 +113,27 @@ function App() {
 
 export default App;
 */
-import React, { useState } from 'react';
+import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import RegisterPage from './pages/RegisterPage';
 import LoginPage from './pages/LoginPage';
 import HomePage from './pages/HomePage';
 import Header from './components/Header';
+import { AuthProvider } from './context/AuthContext';
 import './App.css';
 
 function App() {
-  const [user, setUser] = useState(null); // after login/register
-
   return (
-    <Router>
-      <Header user={user} />
-      <Routes>
-        <Route path="/" element={<HomePage user={user} />} />
-        <Route path="/register" element={<RegisterPage setUser={setUser} />} />
-        <Route path="/login" element={<LoginPage setUser={setUser} />} />
-      </Routes>
-    </Router>
+    <AuthProvider>
+      <Router>
+        <Header />
+        <Routes>
+          <Route path="/" element={<HomePage />} />
+          <Route path="/register" element={<RegisterPage />} />
+          <Route path="/login" element={<LoginPage />} />
+        </Routes>
+      </Router>
+    </AuthProvider>
   );
 }
 

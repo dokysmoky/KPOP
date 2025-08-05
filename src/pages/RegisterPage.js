@@ -1,12 +1,17 @@
 import React, { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
+import { useContext } from 'react';
+import AuthContext from '../context/AuthContext';
 
 
-function RegisterPage({ setUser }) {
+
+
+
+function RegisterPage() {
   const [formData, setFormData] = useState({ username: '', password: '', email: '', name: '', surname: '' });
   const [message, setMessage] = useState('');
   const navigate = useNavigate();
-
+  const { setUser } = useContext(AuthContext);
   const handleChange = (e) => setFormData({ ...formData, [e.target.name]: e.target.value });
 
   const handleSubmit = async (e) => {
