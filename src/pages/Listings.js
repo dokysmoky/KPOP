@@ -20,10 +20,12 @@ function ListingsPage() {
 
   return (
     <div>
-      <h2>All Listings</h2>
+      <h2>All Listings</h2> 
+      <div className="listings-container">
       {listings.map(listing => (
         <Listing key={listing.id} listing={listing} user={user} />
       ))}
+    </div>
     </div>
   );
 }

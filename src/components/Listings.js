@@ -15,12 +15,14 @@ function Listing({ listing, user }) {
           <button>Like</button>
         </>
       ) : (
-        <p>
-          <a href="/login">Login</a> or <a href="/register">Register</a> to interact with listings.
-        </p>
+        <p className="auth-warning">
+        <a href="/login">Login</a> or <a href="/register">Register</a> to interact with listings.
+      </p>
       )}
     </div>
   );
 }
 
 export default Listing;
+
+ 

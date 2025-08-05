@@ -3,6 +3,8 @@ import { Link } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import '../App.css';
 import '../components/Header.css';
+import Listings from './Listings';
+ 
 
 function HomePage() {
   const { user } = useAuth();
@@ -15,9 +17,7 @@ function HomePage() {
           Please <Link to="/login">login</Link> or <Link to="/register">register</Link> to interact with listings.
         </p>
       )}
-      <p>
-        <Link to="/listings">Browse all listings</Link>
-      </p>
+      <Listings />
     </div>
   );
 }

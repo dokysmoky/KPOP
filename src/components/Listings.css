@@ -1,11 +1,19 @@
 .listing {
-  background-color: #fff0f6;
-  border: 1px solid #f8c8dc;
-  border-radius: 12px;
-  padding: 1.5rem;
-  margin: 1rem 0;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
-  font-family: 'Segoe UI', sans-serif;
+  flex: 1 1 250px; 
+  border: 1px solid #ccc;
+  padding: 1rem;
+  border-radius: 8px;
+  max-width: 300px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+  background-color: #fff;
+}
+
+.listings-container {
+  display: flex;
+  flex-wrap: wrap; 
+  gap: 1rem; 
+  justify-content: center; 
+  padding: 1rem;
 }
 
 .listing h3 {
@@ -40,5 +48,27 @@
 
 .listing a:hover {
   color: #d63384;
+  text-decoration: underline;
+}
+
+.auth-warning {
+  border: 2px dashed #ffb6c1;
+  background-color: #fff0f5;
+  padding: 1rem;
+  margin: 1rem 0;
+  border-radius: 12px;
+  text-align: center;
+  font-weight: 500;
+  color: #cc3366;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+}
+
+.auth-warning a {
+  color: #cc3366;
+  font-weight: bold;
+  text-decoration: none;
+}
+
+.auth-warning a:hover {
   text-decoration: underline;
 }
