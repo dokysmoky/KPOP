@@ -7,6 +7,8 @@ import Header from './components/Header';
 import Listings from './pages/Listings';
 import './App.css';
 import './components/Header.css';
+import ProfilePage from './pages/ProfilePage';
+
 
 
 function App() {
@@ -18,6 +20,7 @@ function App() {
         <Route path="/listings" element={<Listings />} />
         <Route path="/register" element={<RegisterPage />} />
         <Route path="/login" element={<LoginPage />} />
+        <Route path="/profile" element={<ProfilePage />} />
       </Routes>
     </Router>
   );
