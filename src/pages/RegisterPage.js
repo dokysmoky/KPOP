@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
+import '../App.css';
+import '../components/Header.css';
 
 
 function RegisterPage() {
@@ -31,6 +33,7 @@ function RegisterPage() {
   };
 
   return (
+    <div className="App centered">
     <div className="auth-form">
       <h2>🌸 Register</h2>
       <form onSubmit={handleSubmit}>
@@ -43,6 +46,7 @@ function RegisterPage() {
       </form>
       <p>Already have an account? <Link to="/login">Sign in here</Link></p>
       {message && <p className="error">{message}</p>}
+    </div>
     </div>
   );
 }

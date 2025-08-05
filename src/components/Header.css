@@ -1,3 +1,4 @@
+
 .header {
   background-color: #ffe4f2;
   padding: 1rem 2rem;
@@ -6,6 +7,8 @@
   align-items: center;
   font-family: 'Segoe UI', sans-serif;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  border-radius: 12px;
+  margin-bottom: 2rem;
 }
 
 .header-title {
@@ -19,8 +22,27 @@
   text-decoration: none;
   color: #6f42c1;
   font-weight: 500;
+  transition: color 0.3s ease;
 }
 
 .header-links a:hover {
+  color: #d63384;
   text-decoration: underline;
+  cursor: pointer;
+}
+
+.header-links button {
+  margin-left: 1rem;
+  padding: 6px 12px;
+  border: none;
+  background-color: #d63384;
+  color: white;
+  font-weight: 500;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.header-links button:hover {
+  background-color: #c2186a;
 }
