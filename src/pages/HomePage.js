@@ -1,7 +1,9 @@
 import React, { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
+import { useAuth } from '../context/AuthContext';
 
-function LoginPage({ setUser }) {
+function LoginPage() {
+  const { setUser } = useAuth();
   const [formData, setFormData] = useState({ username: '', password: '' });
   const [message, setMessage] = useState('');
   const navigate = useNavigate();

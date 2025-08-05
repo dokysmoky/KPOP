@@ -113,18 +113,19 @@ function App() {
 
 export default App;
 */
+/*
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import RegisterPage from './pages/RegisterPage';
 import LoginPage from './pages/LoginPage';
 import HomePage from './pages/HomePage';
 import Header from './components/Header';
-import { AuthProvider } from './context/AuthContext';
+import { useAuth } from '../src/context/AuthContext';
 import './App.css';
 
 function App() {
   return (
-    <AuthProvider>
+    <AuthContext.Provider>
       <Router>
         <Header />
         <Routes>
@@ -133,8 +134,31 @@ function App() {
           <Route path="/login" element={<LoginPage />} />
         </Routes>
       </Router>
-    </AuthProvider>
+    </AuthContext.Provider>
+  );
+}
+
+export default App;*/
+import React from 'react';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import RegisterPage from './pages/RegisterPage';
+import LoginPage from './pages/LoginPage';
+import HomePage from './pages/HomePage';
+import Header from './components/Header';
+import './App.css';
+
+function App() {
+  return (
+    <Router>
+      <Header />
+      <Routes>
+        <Route path="/" element={<HomePage />} />
+        <Route path="/register" element={<RegisterPage />} />
+        <Route path="/login" element={<LoginPage />} />
+      </Routes>
+    </Router>
   );
 }
 
 export default App;
+
