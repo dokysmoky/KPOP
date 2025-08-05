@@ -72,24 +72,33 @@ function ProfilePage() {
         backgroundRepeat: 'no-repeat',
         backgroundPosition: 'center',
         backgroundAttachment: 'fixed',
-        minHeight: '100vh',
+        minHeight: '250vh',
         position: 'relative'
       }}
     >
-
+<div className="overlay-image-wrapper">
+    <img src="/5-star.png" alt="Centered Overlay" className="overlay-image" />
+  </div>
+  
     <div className="profile-container">
       <div className="profile-box">
         <h2 className="profile-title">My Profile</h2>
 
-        {user && base64ProfilePicture && (
-          <div className="profile-picture-container">
-            <img
-              src={`data:image/jpeg;base64,${base64ProfilePicture}`}
-              alt="Profile"
-              className="profile-picture"
-            />
-          </div>
-        )}
+        {user && (
+  <div className="profile-picture-container">
+    <img
+      src={
+        base64ProfilePicture
+          ? `data:image/jpeg;base64,${base64ProfilePicture}`
+          : '/7915522.png'
+      }
+      alt="Profile"
+      className="profile-picture"
+    />
+  </div>
+)}
+
+
 
         <div className="profile-info">
           <div className="info-box"><strong>Username:</strong> {user?.username}</div>

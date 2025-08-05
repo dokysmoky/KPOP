@@ -54,3 +54,13 @@
 .header-links button:hover {
   background-color: #c2186a;
 }
+
+.header-profile-pic {
+  width: 35px;
+  height: 35px;
+  border-radius: 50%;
+  object-fit: cover;
+  margin-left: 1.5rem;
+  border: 2px solid rgb(148, 27, 218);
+  cursor: pointer;
+}

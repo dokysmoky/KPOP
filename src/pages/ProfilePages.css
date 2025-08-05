@@ -10,6 +10,7 @@
 }
 
 .profile-box {
+  margin-top:500pt;
   background: linear-gradient(to right, rgb(200, 184, 236), rgb(211, 147, 211));
   padding: 2rem 3rem;
   border-radius: 10px;
@@ -21,6 +22,11 @@
 
 .profile-picture-container {
   margin-bottom: 1.5rem;
+  background: white;
+  border-radius: 50%;
+  width: 120px;
+  height: 120px;
+display: inline-block;
 }
 
 .profile-picture {
@@ -38,6 +44,7 @@
   margin-bottom: 1.5rem;
   font-size: 0.95rem;
   color: #333;
+ 
 }
 
 .profile-info > div {
@@ -45,6 +52,7 @@
 }
 
 .profile-form label {
+    
   display: block;
   margin-bottom: 1rem;
   text-align: left;
@@ -100,4 +108,18 @@
   text-align: center;
   margin-bottom: 1.5rem;
   color: #f6effa;
+}
+
+.overlay-image-wrapper {
+  position: absolute;
+  top: 650pt;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 1; /* Above background, but behind profile box if needed */
+  pointer-events: none; /* So it doesn’t block clicks */
+}
+
+.overlay-image {
+  width: 950px; /* Adjust size */
+  height: 240vh;
 }
