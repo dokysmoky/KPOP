@@ -65,6 +65,18 @@ function ProfilePage() {
   };
 
   return (
+      <div
+      style={{
+        backgroundImage: 'url("/background.gif")',
+        backgroundSize: 'cover',
+        backgroundRepeat: 'no-repeat',
+        backgroundPosition: 'center',
+        backgroundAttachment: 'fixed',
+        minHeight: '100vh',
+        position: 'relative'
+      }}
+    >
+
     <div className="profile-container">
       <div className="profile-box">
         <h2 className="profile-title">My Profile</h2>
@@ -98,13 +110,14 @@ function ProfilePage() {
           </label>
 
           <label>
-            <strong>Profile Picture:</strong>
+            <strong>Change Profile Picture:</strong>
             <input type="file" onChange={(e) => setProfilePicture(e.target.files[0])} />
           </label>
 
-          <button type="submit" className="save-button">Save</button>
+          <button type="submit" className="save-button">Update profile</button>
         </form>
       </div>
+    </div>
     </div>
   );
 }

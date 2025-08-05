@@ -1,9 +1,12 @@
+
+
 .profile-container {
   min-height: 100vh;
   display: flex;
   justify-content: center;
-  align-items: center;
+  align-items: flex-start;
   padding: 85px;
+  
 }
 
 .profile-box {
@@ -25,7 +28,7 @@
   height: 120px;
   border-radius: 50%;
   object-fit: cover;
-  border: 3px solid #b43ee2;
+  border: 3px solid #c4387e;
   box-shadow: 0 2px 6px rgba(0,0,0,0.15);
   display: inline-block;
 }
@@ -46,7 +49,7 @@
   margin-bottom: 1rem;
   text-align: left;
   font-weight: 600;
-  color: #555;
+  color: #fcfafd;
 }
 
 .profile-form input[type="number"],
