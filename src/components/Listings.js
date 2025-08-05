@@ -2,6 +2,7 @@
 import React from 'react';
 import '../App.css';
 import './Header.css';
+import './Listings.css';
 
 function Listing({ listing, user }) {
   return (

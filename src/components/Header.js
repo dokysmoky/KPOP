@@ -8,17 +8,21 @@ import './Header.css';
 function Header() {
   const { user, logout } = useAuth();
 
-  return (
-    <header>
-      <nav>
-        <Link to="/">Home</Link> |{' '}
+ return (
+    <header className="header">
+      <div className="header-title">KPOP Marketplace</div>
+      <nav className="header-links">
+        <Link to="/">Home</Link>
+        <Link to="/listings">Listings</Link>
         {user ? (
           <>
-            <span>Hello, {user.username}</span> | <button onClick={logout}>Logout</button>
+            <span style={{ marginLeft: '1.5rem' }}>Hi, {user.username}</span>
+            <button onClick={logout}>Logout</button>
           </>
         ) : (
           <>
-            <Link to="/login">Login</Link> | <Link to="/register">Register</Link>
+            <Link to="/login">Login</Link>
+            <Link to="/register">Register</Link>
           </>
         )}
       </nav>

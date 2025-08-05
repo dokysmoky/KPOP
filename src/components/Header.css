@@ -1,5 +1,5 @@
-
 .header {
+  width: 100%;
   background-color: #ffe4f2;
   padding: 1rem 2rem;
   display: flex;
@@ -7,8 +7,11 @@
   align-items: center;
   font-family: 'Segoe UI', sans-serif;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-  border-radius: 12px;
-  margin-bottom: 2rem;
+  border-radius: 0; 
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 1000;
 }
 
 .header-title {
@@ -17,8 +20,13 @@
   color: #d63384;
 }
 
+.header-links {
+  display: flex;
+  align-items: center;
+}
+
 .header-links a {
-  margin-left: 1rem;
+  margin-left: 1.5rem;
   text-decoration: none;
   color: #6f42c1;
   font-weight: 500;
@@ -32,7 +40,7 @@
 }
 
 .header-links button {
-  margin-left: 1rem;
+  margin-left: 1.5rem;
   padding: 6px 12px;
   border: none;
   background-color: #d63384;

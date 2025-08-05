@@ -1,0 +1,44 @@
+.listing {
+  background-color: #fff0f6;
+  border: 1px solid #f8c8dc;
+  border-radius: 12px;
+  padding: 1.5rem;
+  margin: 1rem 0;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
+  font-family: 'Segoe UI', sans-serif;
+}
+
+.listing h3 {
+  margin-top: 0;
+  color: #d63384;
+}
+
+.listing p {
+  margin: 0.5rem 0;
+  color: #6f42c1;
+}
+
+.listing button {
+  margin-right: 1rem;
+  padding: 0.5rem 1rem;
+  background-color: #d63384;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.listing button:hover {
+  background-color: #c2186a;
+}
+
+.listing a {
+  color: #6f42c1;
+  font-weight: 500;
+}
+
+.listing a:hover {
+  color: #d63384;
+  text-decoration: underline;
+}

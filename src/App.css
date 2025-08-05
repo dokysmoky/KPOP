@@ -114,7 +114,8 @@ p {
   color: #555;
 }
 
-/* Listings page */
+
+/* Listings page 
 .listings-page {
   padding: 2rem;
   text-align: center;
@@ -154,4 +155,4 @@ p {
 .listings-container .card:hover {
   transform: translateY(-5px);
   box-shadow: 0 12px 30px rgba(0, 0, 0, 0.15);
-}
+}*/
