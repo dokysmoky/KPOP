@@ -52,7 +52,7 @@ function ProfilePage() {
       const response = await axios.put(
         `http://88.200.63.148:4200/profile/${user.user_id}`,
         formData,
-        { headers: { 'Content-Type': 'multipart/form-data' } }
+       // { headers: { 'Content-Type': 'multipart/form-data' } }
       );
 
       setUser(response.data.updatedUser);

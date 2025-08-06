@@ -1,0 +1,15 @@
+
+footer.site-footer {
+  background-color: #3c1a49;
+  text-align: center;
+  padding: 1rem 0;
+  position: relative;
+  bottom: 0;
+  width: 100%;
+  font-size: 0.9rem;
+  border-top: 1px solid #210c2b;
+}
+
+footer.site-footer * {
+  color: white !important;
+}

@@ -124,7 +124,7 @@ p {
   background-image: url('/public/2.gif'); 
   background-size: cover;
   background-position: center;
-  height: 600px;
+  height: 700px;
   width: 100%;
   position: relative;
   display: flex;
@@ -169,3 +169,18 @@ p {
   color: #ecade4; 
 }
 
+html, body, #root, .app-container {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+.app-container {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+.main-content {
+  flex: 1; /* This makes the content take all available vertical space */
+}

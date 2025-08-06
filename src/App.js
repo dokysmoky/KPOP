@@ -9,13 +9,13 @@ import './App.css';
 import './components/Header.css';
 import ProfilePage from './pages/ProfilePage';
 import CreateListing from './components/CreateListing';
+import Footer from './components/Footer';
 
-
-function App() {
+/*function App() {
   return (
     <Router>
       <Header />
-      <Routes>
+      <Routes>  
         <Route path="/" element={<HomePage />} />
         <Route path="/listings" element={<Listings />} />
         <Route path="/create-listing" element={<CreateListing />} />
@@ -23,7 +23,28 @@ function App() {
         <Route path="/login" element={<LoginPage />} />
         <Route path="/profile" element={<ProfilePage />} />
       </Routes>
+      <Footer />
     </Router>
+  );
+}*/
+function App() {
+  return (
+    <div className="app-container">
+      <Router>
+        <Header />
+        <div className="main-content">
+          <Routes>
+            <Route path="/" element={<HomePage />} />
+            <Route path="/listings" element={<Listings />} />
+            <Route path="/create-listing" element={<CreateListing />} />
+            <Route path="/register" element={<RegisterPage />} />
+            <Route path="/login" element={<LoginPage />} />
+            <Route path="/profile" element={<ProfilePage />} />
+          </Routes>
+        </div>
+        <Footer />
+      </Router>
+    </div>
   );
 }
 
