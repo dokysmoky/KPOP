@@ -34,6 +34,7 @@ function Header() {
       <nav className="header-links">
         <Link to="/">Home</Link>
         <Link to="/listings">Listings</Link>
+         <Link to="/create-listing">Create Listing</Link>
         {user ? (
   <>
     <Link to="/profile" className="profile-link">
