@@ -1,71 +1,87 @@
-
-import React, { useState, useMemo } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useAuth } from '../context/AuthContext';
 import axios from 'axios';
 import '../App.css';
 import '../components/Header.css';
-import './ProfilePages.css';
+import './ProfilePages.css'; 
 
-function ProfilePage() {
-  const { user, setUser } = useAuth();
+export default function ProfilePage() {
+  const { user, token, setUser } = useAuth();
   const [age, setAge] = useState(user?.age || '');
   const [bio, setBio] = useState(user?.bio || '');
   const [profilePicture, setProfilePicture] = useState(null);
+  const [previewUrl, setPreviewUrl] = useState(null);
 
-  function uint8ArrayToString(u8Array) {
-    const CHUNK_SIZE = 0x8000;
-    let result = '';
-    for (let i = 0; i < u8Array.length; i += CHUNK_SIZE) {
-      result += String.fromCharCode.apply(null, u8Array.subarray(i, i + CHUNK_SIZE));
+  useEffect(() => {
+    if (!profilePicture) {
+      setPreviewUrl(null);
+      return;
     }
-    return result;
-  }
+    const objectUrl = URL.createObjectURL(profilePicture);
+    setPreviewUrl(objectUrl);
+    return () => URL.revokeObjectURL(objectUrl);
+  }, [profilePicture]);
 
-  const base64ProfilePicture = useMemo(() => {
-    if (!user?.profile_picture?.data) return null;
-    try {
-      const u8arr = new Uint8Array(user.profile_picture.data);
-      const binaryString = uint8ArrayToString(u8arr);
-      return btoa(binaryString);
-    } catch (e) {
-      console.error('Error encoding profile picture', e);
-      return null;
-    }
-  }, [user?.profile_picture?.data]);
+  const bufferToBase64 = (buffer) => {
+    if (!buffer) return null;
+    const binary = new Uint8Array(buffer.data).reduce(
+      (acc, b) => acc + String.fromCharCode(b),
+      ''
+    );
+    return window.btoa(binary);
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
-    if (!user || !user.user_id) {
+    if (!user?.id || !token) {
       alert('You must be logged in to update your profile.');
       return;
     }
-
-    const formData = new FormData();
-    formData.append('age', age);
-    formData.append('bio', bio);
-    if (profilePicture) {
-      formData.append('profile_picture', profilePicture);
-    }
-
     try {
+      const formData = new FormData();
+      formData.append('age', age);
+      formData.append('bio', bio);
+      if (profilePicture) {
+        formData.append('profile_picture', profilePicture);
+      }
+
       const response = await axios.put(
-        `http://88.200.63.148:4200/profile/${user.user_id}`,
+        `http://88.200.63.148:4200/profile/${user.id}`,
         formData,
-       // { headers: { 'Content-Type': 'multipart/form-data' } }
+        {
+          headers: {
+            'Content-Type': 'multipart/form-data',
+            Authorization: `Bearer ${token}`,
+          },
+        }
       );
 
-      setUser(response.data.updatedUser);
-      localStorage.setItem('user', JSON.stringify(response.data.updatedUser));
-      alert('Profile updated successfully!');
-    } catch (err) {
-      console.error(err);
-      alert('Failed to update profile.');
+      const updatedUser = response.data.updatedUser || {};
+      let profile_picture_url = null;
+      if (updatedUser.profile_picture && updatedUser.profile_picture.data) {
+        profile_picture_url = `data:image/jpeg;base64,${bufferToBase64(updatedUser.profile_picture)}`;
+      }
+
+      const userToStore = {
+  ...user,
+  age: updatedUser.age,
+  bio: updatedUser.bio,
+  ...(profile_picture_url && { profile_picture_url }), // only add if it exists
+};
+
+
+      setUser(userToStore);
+      localStorage.setItem('user', JSON.stringify(userToStore));
+      setProfilePicture(null);
+      alert('Profile updated successfully');
+    } catch (error) {
+      console.error('Profile update error:', error);
+      alert('Failed to update profile');
     }
   };
 
   return (
-      <div
+    <div
       style={{
         backgroundImage: 'url("/background.gif")',
         backgroundSize: 'cover',
@@ -84,51 +100,50 @@ function ProfilePage() {
       <div className="profile-box">
         <h2 className="profile-title">My Profile</h2>
 
-        {user && (
-  <div className="profile-picture-container">
-    <img
-      src={
-        base64ProfilePicture
-          ? `data:image/jpeg;base64,${base64ProfilePicture}`
-          : '/7915522.png'
-      }
-      alt="Profile"
-      className="profile-picture"
-    />
-  </div>
-)}
-
-
-
-        <div className="profile-info">
-          <div className="info-box"><strong>Username:</strong> {user?.username}</div>
-          <div className="info-box"><strong>Name:</strong> {user?.name}</div>
-          <div className="info-box"><strong>Surname:</strong> {user?.surname}</div>
-          <div className="info-box"><strong>Email:</strong> {user?.email}</div>
+        <div className="profile-picture-container">
+          <img
+            src={previewUrl || user?.profile_picture_url || '/7915522.png'}
+            alt="Profile"
+            className="profile-picture"
+          />
         </div>
+
+       <div className="profile-info">
+  <div className="info-box"><strong>Username:</strong> {user?.username}</div>
+  <div className="info-box"><strong>Name:</strong> {user?.name}</div>
+  <div className="info-box"><strong>Surname:</strong> {user?.surname}</div>
+  <div className="info-box"><strong>Email:</strong> {user?.email}</div>
+</div>
 
         <form onSubmit={handleSubmit} className="profile-form">
           <label>
-            <strong>Bio:</strong>
+            Bio:
             <textarea value={bio} onChange={(e) => setBio(e.target.value)} />
           </label>
 
           <label>
-            <strong>Age:</strong>
-            <input type="number" value={age} onChange={(e) => setAge(e.target.value)} />
+            Age:
+            <input
+              type="number"
+              value={age}
+              onChange={(e) => setAge(e.target.value)}
+              min="0"
+            />
           </label>
 
           <label>
-            <strong>Change Profile Picture:</strong>
-            <input type="file" onChange={(e) => setProfilePicture(e.target.files[0])} />
+            Change Profile Picture:
+            <input
+              type="file"
+              accept="image/*"
+              onChange={(e) => setProfilePicture(e.target.files[0])}
+            />
           </label>
 
           <button type="submit" className="save-button">Update profile</button>
         </form>
+        </div>
       </div>
-    </div>
     </div>
   );
 }
-
-export default ProfilePage;
