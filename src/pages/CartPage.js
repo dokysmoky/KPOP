@@ -1,11 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import { useAuth } from '../context/AuthContext';
+import { useNavigate } from 'react-router-dom';
 import '../App.css';
 import '../components/Header.css';
 
 function CartPage() {
   const { user, token } = useAuth();
   const [cart, setCart] = useState({ cart_id: null, items: [] });
+  const navigate = useNavigate();
 
   useEffect(() => {
     if (!token || !(user?.id || user?.user_id)) return;
@@ -26,29 +28,25 @@ function CartPage() {
     fetchCart();
   }, [token, user]);
 
-  /*async function handleRemove(product_id) {
+
+  async function handleRemove(cartItemId) {
     if (!token || !user) {
       alert('Please login to modify cart');
       return;
     }
 
     try {
-      const res = await fetch('http://88.200.63.148:4200/cart/remove', {
+      const res = await fetch(`http://88.200.63.148:4200/cart/remove/${cartItemId}`, {
         method: 'DELETE',
         headers: {
-          'Content-Type': 'application/json',
           'Authorization': `Bearer ${token}`
-        },
-        body: JSON.stringify({
-          user_id: user.id || user.user_id,
-          product_id,
-        }),
+        }
       });
 
       if (res.ok) {
         setCart(prev => ({
           ...prev,
-          items: prev.items.filter(item => item.product_id !== product_id),
+          items: prev.items.filter(item => item.cart_item_id !== cartItemId),
         }));
       } else {
         const errData = await res.json();
@@ -58,36 +56,7 @@ function CartPage() {
       console.error('Error removing from cart:', err);
       alert('Failed to remove from cart');
     }
-  }*/
- async function handleRemove(cartItemId) {
-  if (!token || !user) {
-    alert('Please login to modify cart');
-    return;
   }
-
-  try {
-    const res = await fetch(`http://88.200.63.148:4200/cart/remove/${cartItemId}`, {
-      method: 'DELETE',
-      headers: {
-        'Authorization': `Bearer ${token}`
-      }
-    });
-
-    if (res.ok) {
-      setCart(prev => ({
-        ...prev,
-        items: prev.items.filter(item => item.cart_item_id !== cartItemId),
-      }));
-    } else {
-      const errData = await res.json();
-      alert(`Failed to remove from cart: ${errData.message}`);
-    }
-  } catch (err) {
-    console.error('Error removing from cart:', err);
-    alert('Failed to remove from cart');
-  }
-}
-
 
   return (
     <div>
@@ -97,8 +66,8 @@ function CartPage() {
         <div key={item.cart_item_id} className="cart-item">
           <img
             src={
-              item.photo?.startsWith('data:image') 
-                ? item.photo 
+              item.photo?.startsWith('data:image')
+                ? item.photo
                 : `data:image/jpeg;base64,${item.photo}` || '/3.png'
             }
             alt={item.listing_name}
@@ -110,8 +79,18 @@ function CartPage() {
           <button onClick={() => handleRemove(item.cart_item_id)}>Remove</button>
         </div>
       ))}
+
+      {cart.items && cart.items.length > 0 && (
+        <button
+          style={{ marginTop: '20px', padding: '10px 20px', fontSize: '16px' }}
+          onClick={() => navigate('/checkout', { state: { cart } })}
+        >
+          Proceed to Checkout
+        </button>
+      )}
     </div>
   );
 }
 
 export default CartPage;
+

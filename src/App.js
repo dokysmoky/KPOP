@@ -13,7 +13,7 @@ import Footer from './components/Footer';
 import WishlistPage from './pages/WishlistPage'; 
 import ListingDetailPage from './pages/ListingDetailPage';
 import Cart from './pages/CartPage';
-
+import CheckoutPage from './pages/CheckoutPage';
 
 function App() {
   return (
@@ -31,6 +31,7 @@ function App() {
             <Route path="/login" element={<LoginPage />} />
             <Route path="/profile" element={<ProfilePage />} />
             <Route path="/cart" element={<Cart />} />
+            <Route path="/checkout" element={<CheckoutPage />} />
           </Routes>
         </div>
         <Footer />
