@@ -11,6 +11,9 @@ import ProfilePage from './pages/ProfilePage';
 import CreateListing from './components/CreateListing';
 import Footer from './components/Footer';
 import WishlistPage from './pages/WishlistPage'; 
+import ListingDetailPage from './pages/ListingDetailPage';
+
+
 
 /*function App() {
   return (
@@ -39,6 +42,7 @@ function App() {
             <Route path="/listings" element={<Listings />} />
             <Route path="/wishlist" element={<WishlistPage />} /> 
             <Route path="/create-listing" element={<CreateListing />} />
+            <Route path="/listing/:product_id" element={<ListingDetailPage />} />
             <Route path="/register" element={<RegisterPage />} />
             <Route path="/login" element={<LoginPage />} />
             <Route path="/profile" element={<ProfilePage />} />

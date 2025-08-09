@@ -42,7 +42,7 @@ import '../App.css';
 import './Header.css';
 import './Listings.css';
 
-function Listing({ listing, user, isLiked, onToggleLike }) {
+function Listing({ listing, user, isLiked, onToggleLike, onClick  }) {
   const fallbackImage = '/3.png';
 
   const imageUrl = listing.photo
@@ -52,7 +52,7 @@ function Listing({ listing, user, isLiked, onToggleLike }) {
     : fallbackImage;
 
   return (
-    <div className="listing">
+    <div className="listing" onClick={onClick} style={{ cursor: 'pointer' }}>
       {imageUrl && (
         <img src={imageUrl} alt={listing.title} className="listing-image" />
       )}
@@ -63,9 +63,15 @@ function Listing({ listing, user, isLiked, onToggleLike }) {
       {user ? (
         <>
           <button>Add to Cart</button>
-          <button onClick={() => onToggleLike(listing.product_id)}>
-            {isLiked ? '❤️ Unlike' : '🤍 Like'}
-          </button>
+         <button
+  onClick={e => {
+    e.stopPropagation();
+    onToggleLike(listing.product_id);
+  }}
+>
+  {isLiked ? '❤️ Unlike' : '🤍 Like'}
+</button>
+
         </>
       ) : (
         <p className="auth-warning">

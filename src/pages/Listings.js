@@ -71,11 +71,13 @@ import { useAuth } from '../context/AuthContext';
 import Listing from '../components/Listings';
 import '../App.css';
 import '../components/Header.css';
+import { useNavigate } from 'react-router-dom';
 
 function ListingsPage() {
   const { user, token } = useAuth();
   const [listings, setListings] = useState([]);
   const [wishlist, setWishlist] = useState([]);
+  const navigate = useNavigate();
 
   // Fetch all listings
   useEffect(() => {
@@ -155,6 +157,7 @@ function ListingsPage() {
             user={user}
             isLiked={wishlist.includes(listing.product_id)}
             onToggleLike={toggleLike}
+            onClick={() => navigate(`/listing/${listing.product_id}`)}
           />
         ))}
       </div>
