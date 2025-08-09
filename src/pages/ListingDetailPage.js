@@ -133,11 +133,11 @@ function ListingDetailPage() {
   if (!listing) return <p>Listing not found</p>;
 
   return (
-    <div style={{ display: 'flex', gap: '2rem', padding: '1rem' }}>
+    <div style={{ display: 'flex', gap: '2rem', padding: '1rem', paddingTop: '80px'  }}>
       {/* Left: Listing image */}
       <div style={{ flex: '1' }}>
         {listing.photo ? (
-          <img src={listing.photo} alt={listing.title} style={{ width: '100%', borderRadius: '8px' }} />
+          <img src={listing.photo} alt={listing.listing_name} style={{ width: '100%', borderRadius: '8px' }} />
         ) : (
           <div style={{ width: '100%', height: 300, backgroundColor: '#eee' }}>No Image</div>
         )}
@@ -145,7 +145,7 @@ function ListingDetailPage() {
 
       {/* Right: Listing details */}
       <div style={{ flex: '1', display: 'flex', flexDirection: 'column' }}>
-        <h1>{listing.title}</h1>
+        <h1 style={{ fontSize: '2.5rem', fontWeight: '700', marginBottom: '0.5rem' }}>{listing.listing_name}</h1>
         <p>{listing.description}</p>
         <p><strong>Condition:</strong> {listing.condition}</p>
         <p><strong>Price:</strong> ${listing.price}</p>

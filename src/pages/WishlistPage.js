@@ -38,13 +38,35 @@ console.log("Auth user:", user);
     fetchWishlist();
   }, [token, user]);
 
+ async function handleRemoveFromWishlist(product_id) {
+    try {
+      const userId = user.user_id || user.id;
+      const res = await fetch(`http://88.200.63.148:4200/wishlist/${userId}/${product_id}`, {
+        method: 'DELETE',
+        headers: { Authorization: `Bearer ${token}` },
+      });
+      if (res.ok) {
+        // Remove item from local state
+        setWishlist(prev => prev.filter(item => item.product_id !== product_id));
+      } else {
+        const errData = await res.json();
+        alert(`Failed to remove from wishlist: ${errData.message}`);
+      }
+    } catch (err) {
+      console.error('Error removing from wishlist:', err);
+      alert('Failed to remove from wishlist');
+    }
+  }
+
+
   return (
     <div>
       <h2>Your Wishlist</h2>
       <div className="listings-container">
         {wishlist.length === 0 && <p>Your wishlist is empty.</p>}
         {wishlist.map((listing) => (
-          <Listing key={listing.product_id} listing={listing} user={user} />
+          <Listing key={listing.product_id} listing={listing} user={user} isWishlistItem={true}
+            onRemoveFromWishlist={() => handleRemoveFromWishlist(listing.product_id)} />
         ))}
       </div>
     </div>

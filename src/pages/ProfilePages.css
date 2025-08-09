@@ -10,7 +10,7 @@
 }
 
 .profile-box {
-  margin-top:500pt;
+  margin-top:450pt;
   background: linear-gradient(to right, rgb(200, 184, 236), rgb(211, 147, 211));
   padding: 2rem 3rem;
   border-radius: 10px;
@@ -122,4 +122,56 @@ display: inline-block;
 .overlay-image {
   width: 950px; /* Adjust size */
   height: 240vh;
+}
+
+.my-listings-section {
+  background-color: rgba(60, 26, 73, 0.86); /* white with some transparency */
+  padding: 1.5rem;
+  border-radius: 12px;
+  max-width: 960px;
+  margin: 7rem auto;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.15);
+}
+
+.listings-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  justify-content: center;
+}
+
+.listing-card {
+  background-color: rgb(255, 255, 255);
+  border-radius: 10px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  padding: 1rem;
+  max-width: 280px; /* control width */
+  flex: 1 1 280px; /* flexible but don't grow too big */
+  cursor: pointer;
+  transition: transform 0.2s ease;
+}
+
+.listing-card:hover {
+  transform: scale(1.05);
+}
+
+.listing-photo {
+  width: 100%;
+  height: 160px;
+  object-fit: cover;
+  border-radius: 8px;
+  margin-bottom: 0.8rem;
+}
+
+.no-photo {
+  width: 100%;
+  height: 160px;
+  background: #eee;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #999;
+  font-style: italic;
+  margin-bottom: 0.8rem;
 }

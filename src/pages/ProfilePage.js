@@ -4,6 +4,9 @@ import axios from 'axios';
 import '../App.css';
 import '../components/Header.css';
 import './ProfilePages.css'; 
+import '../components/Listings.css';
+import { useNavigate } from 'react-router-dom';
+
 
 export default function ProfilePage() {
   const { user, token, setUser } = useAuth();
@@ -11,6 +14,31 @@ export default function ProfilePage() {
   const [bio, setBio] = useState(user?.bio || '');
   const [profilePicture, setProfilePicture] = useState(null);
   const [previewUrl, setPreviewUrl] = useState(null);
+ const [myListings, setMyListings] = useState([]);
+  const [loadingListings, setLoadingListings] = useState(false);
+  const [errorListings, setErrorListings] = useState(null);
+const navigate = useNavigate();
+
+
+
+useEffect(() => {
+    if (user?.id && token) {
+      setLoadingListings(true);
+      axios.get(`http://88.200.63.148:4200/listings/user/${user.id}`, {
+        headers: { Authorization: `Bearer ${token}` }
+      })
+      .then(response => {
+        setMyListings(response.data.listings || []);
+        setErrorListings(null);
+      })
+      .catch(err => {
+        console.error('Error fetching user listings:', err);
+        setErrorListings('Failed to load your listings');
+      })
+      .finally(() => setLoadingListings(false));
+    }
+  }, [user, token]);
+
 
   useEffect(() => {
     if (!profilePicture) {
@@ -89,9 +117,14 @@ export default function ProfilePage() {
         backgroundPosition: 'center',
         backgroundAttachment: 'fixed',
         minHeight: '250vh',
-        position: 'relative'
+        position: 'relative',
+        paddingTop: '60px',
+      paddingBottom: '60px',
       }}
     >
+
+
+
 <div className="overlay-image-wrapper">
     <img src="/5-star.png" alt="Centered Overlay" className="overlay-image" />
   </div>
@@ -102,7 +135,7 @@ export default function ProfilePage() {
 
         <div className="profile-picture-container">
           <img
-            src={previewUrl || user?.profile_picture_url || '/7915522.png'}
+            src={previewUrl ||  `http://88.200.63.148:4200/profile-picture/${user?.id}` || '/7915522.png'}
             alt="Profile"
             className="profile-picture"
           />
@@ -144,6 +177,38 @@ export default function ProfilePage() {
         </form>
         </div>
       </div>
+
+<div className="my-listings-section">
+        <h2>My Listings</h2>
+        {loadingListings && <p>Loading your listings...</p>}
+        {errorListings && <p style={{ color: 'red' }}>{errorListings}</p>}
+        {myListings.length === 0 && !loadingListings && <p>You have no listings yet.</p>}
+<div className="listings-grid">
+  {myListings.map(listing => (
+    <div
+      key={listing.product_id}
+      className="listing-card"
+      onClick={() => navigate(`/listing/${listing.product_id}`)}
+      style={{ cursor: 'pointer' }}
+    >
+      {listing.photo ? (
+        <img
+          src={listing.photo}
+          alt={listing.listing_name || 'Listing photo'}
+          className="listing-photo"
+        />
+      ) : (
+        <div className="no-photo">No photo</div>
+      )}
+      <h3>{listing.listing_name || 'Untitled'}</h3>
+      <p>{listing.description?.slice(0, 100)}...</p>
+    </div>
+  ))}
+</div>
+
+      </div>
+
+
     </div>
   );
 }
