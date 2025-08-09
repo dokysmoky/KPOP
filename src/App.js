@@ -12,25 +12,9 @@ import CreateListing from './components/CreateListing';
 import Footer from './components/Footer';
 import WishlistPage from './pages/WishlistPage'; 
 import ListingDetailPage from './pages/ListingDetailPage';
+import Cart from './pages/CartPage';
 
 
-
-/*function App() {
-  return (
-    <Router>
-      <Header />
-      <Routes>  
-        <Route path="/" element={<HomePage />} />
-        <Route path="/listings" element={<Listings />} />
-        <Route path="/create-listing" element={<CreateListing />} />
-        <Route path="/register" element={<RegisterPage />} />
-        <Route path="/login" element={<LoginPage />} />
-        <Route path="/profile" element={<ProfilePage />} />
-      </Routes>
-      <Footer />
-    </Router>
-  );
-}*/
 function App() {
   return (
     <div className="app-container">
@@ -46,6 +30,7 @@ function App() {
             <Route path="/register" element={<RegisterPage />} />
             <Route path="/login" element={<LoginPage />} />
             <Route path="/profile" element={<ProfilePage />} />
+            <Route path="/cart" element={<Cart />} />
           </Routes>
         </div>
         <Footer />

@@ -59,7 +59,7 @@ function Header() {
         <Link to="/listings">Listings</Link>
         <Link to="/create-listing">Create Listing</Link>
          {user && <Link to="/wishlist">Wishlist</Link>}
-
+          {user && <Link to="/cart">Cart</Link>}
 
         {user ? (
           <>
