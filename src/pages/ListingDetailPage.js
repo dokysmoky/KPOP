@@ -58,9 +58,7 @@ function ListingDetailPage() {
       if (res.ok) {
         setCommentText('');
         // Refresh comments
-        const resComments = await fetch(`http://88.200.63.148:4200/comments/${product_id}`);
-        const dataComments = await resComments.json();
-        setComments(dataComments.comments);
+        await fetchComments();
       } else {
         const errData = await res.json();
         alert(`Error posting comment: ${errData.message}`);
@@ -68,6 +66,40 @@ function ListingDetailPage() {
     } catch (err) {
       console.error('Error posting comment:', err);
       alert('Failed to post comment');
+    }
+  }
+
+  // Delete comment
+  async function handleDeleteComment(comment_id) {
+    if (!window.confirm('Are you sure you want to delete this comment?')) return;
+
+    try {
+      const res = await fetch(`http://88.200.63.148:4200/comments/${comment_id}`, {
+        method: 'DELETE',
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      if (res.ok) {
+        // Refresh comments
+        await fetchComments();
+      } else {
+        const errData = await res.json();
+        alert(`Error deleting comment: ${errData.message}`);
+      }
+    } catch (err) {
+      console.error('Error deleting comment:', err);
+      alert('Failed to delete comment');
+    }
+  }
+
+  async function fetchComments() {
+    try {
+      const res = await fetch(`http://88.200.63.148:4200/comments/${product_id}`);
+      const data = await res.json();
+      setComments(data.comments);
+    } catch (err) {
+      console.error('Error fetching comments:', err);
     }
   }
 
@@ -104,8 +136,17 @@ function ListingDetailPage() {
           <ul style={{ listStyle: 'none', padding: 0 }}>
             {comments.map(c => (
               <li key={c.comment_id} style={{ borderBottom: '1px solid #ddd', padding: '0.5rem 0' }}>
-                <b>{c.username}</b> <small style={{ color: '#666' }}>{new Date(c.created_at).toLocaleString()}</small>
+                <b>{c.username}</b> <small style={{ color: '#666' }}>{new Date(c.comment_date).toLocaleString()}</small>
                 <p>{c.comment_text}</p>
+                {/* Show delete button if user owns comment or is admin */}
+                {user && (user.id === c.user_id || user.is_admin) && (
+                  <button
+                    onClick={() => handleDeleteComment(c.comment_id)}
+                    style={{ color: 'red', cursor: 'pointer', background: 'none', border: 'none', padding: 0 }}
+                  >
+                    Delete
+                  </button>
+                )}
               </li>
             ))}
           </ul>
@@ -133,7 +174,7 @@ function ListingDetailPage() {
   );
 }
 
-// Separate small component to fetch seller profile picture (optional)
+// SellerInfo component unchanged
 function SellerInfo({ sellerId, username }) {
   const [profilePic, setProfilePic] = useState(null);
 
@@ -147,11 +188,10 @@ function SellerInfo({ sellerId, username }) {
           setProfilePic(url);
         }
       } catch (err) {
-        // ignore errors, fallback to no picture
+        // ignore errors
       }
     }
     fetchProfilePic();
-    // Cleanup URL object
     return () => {
       if (profilePic) URL.revokeObjectURL(profilePic);
     };
