@@ -11,7 +11,7 @@ function ListingDetailPage() {
   const [commentText, setCommentText] = useState('');
   const [loading, setLoading] = useState(true);
 
-  // Fetch listing with seller info
+  // Fetch listing
   useEffect(() => {
     async function fetchListing() {
       try {
@@ -29,17 +29,18 @@ function ListingDetailPage() {
 
   // Fetch comments
   useEffect(() => {
-    async function fetchComments() {
-      try {
-        const res = await fetch(`http://88.200.63.148:4200/comments/${product_id}`);
-        const data = await res.json();
-        setComments(data.comments);
-      } catch (err) {
-        console.error('Error fetching comments:', err);
-      }
-    }
     fetchComments();
   }, [product_id]);
+
+  async function fetchComments() {
+    try {
+      const res = await fetch(`http://88.200.63.148:4200/comments/${product_id}`);
+      const data = await res.json();
+      setComments(data.comments);
+    } catch (err) {
+      console.error('Error fetching comments:', err);
+    }
+  }
 
   // Post new comment
   async function handleSubmitComment(e) {
@@ -57,7 +58,6 @@ function ListingDetailPage() {
       });
       if (res.ok) {
         setCommentText('');
-        // Refresh comments
         await fetchComments();
       } else {
         const errData = await res.json();
@@ -69,7 +69,7 @@ function ListingDetailPage() {
     }
   }
 
-  // Delete comment
+  // Delete comment (same as before)
   async function handleDeleteComment(comment_id) {
     if (!window.confirm('Are you sure you want to delete this comment?')) return;
 
@@ -81,7 +81,6 @@ function ListingDetailPage() {
         },
       });
       if (res.ok) {
-        // Refresh comments
         await fetchComments();
       } else {
         const errData = await res.json();
@@ -93,13 +92,40 @@ function ListingDetailPage() {
     }
   }
 
-  async function fetchComments() {
+  // Report (post or comment)
+  async function handleReport({ productId, commentId = null, reportedUserId }) {
+    if (!user) {
+      alert('Please login to report.');
+      return;
+    }
+
+    const reason = prompt('Please enter the reason for reporting (optional):', '');
+    // Proceed with report submission
+
     try {
-      const res = await fetch(`http://88.200.63.148:4200/comments/${product_id}`);
-      const data = await res.json();
-      setComments(data.comments);
+      const res = await fetch('http://88.200.63.148:4200/report', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify({
+          product_id: productId,
+          comment_id: commentId,
+          reported_user_id: reportedUserId,
+          report_reason: reason || null,
+          user_id: user.id, // reporter's user_id
+        }),
+      });
+      if (res.ok) {
+        alert('You successfully reported it.');
+      } else {
+        const errData = await res.json();
+        alert(`Error reporting: ${errData.message}`);
+      }
     } catch (err) {
-      console.error('Error fetching comments:', err);
+      console.error('Error reporting:', err);
+      alert('Failed to report.');
     }
   }
 
@@ -124,6 +150,19 @@ function ListingDetailPage() {
         <p><strong>Condition:</strong> {listing.condition}</p>
         <p><strong>Price:</strong> ${listing.price}</p>
 
+        <button
+          onClick={() =>
+            handleReport({
+              productId: product_id,
+              reportedUserId: listing.seller_id,
+              commentId: null,
+            })
+          }
+          style={{ marginBottom: '1rem', color: 'orange' }}
+        >
+          Report Post
+        </button>
+
         {/* Seller info */}
         <div style={{ marginTop: '1rem', borderTop: '1px solid #ccc', paddingTop: '1rem', display: 'flex', alignItems: 'center', gap: '1rem' }}>
           <SellerInfo sellerId={listing.seller_id} username={listing.username} />
@@ -138,15 +177,27 @@ function ListingDetailPage() {
               <li key={c.comment_id} style={{ borderBottom: '1px solid #ddd', padding: '0.5rem 0' }}>
                 <b>{c.username}</b> <small style={{ color: '#666' }}>{new Date(c.comment_date).toLocaleString()}</small>
                 <p>{c.comment_text}</p>
-                {/* Show delete button if user owns comment or is admin */}
                 {user && (user.id === c.user_id || user.is_admin) && (
                   <button
                     onClick={() => handleDeleteComment(c.comment_id)}
-                    style={{ color: 'red', cursor: 'pointer', background: 'none', border: 'none', padding: 0 }}
+                    style={{ color: 'red', cursor: 'pointer', background: 'none', border: 'none', padding: 0, marginRight: '1rem' }}
                   >
                     Delete
                   </button>
                 )}
+                {/* Report comment button */}
+                <button
+                  onClick={() =>
+                    handleReport({
+                      productId: product_id,
+                      commentId: c.comment_id,
+                      reportedUserId: c.user_id,
+                    })
+                  }
+                  style={{ color: 'orange', cursor: 'pointer', background: 'none', border: 'none', padding: 0 }}
+                >
+                  Report
+                </button>
               </li>
             ))}
           </ul>
@@ -174,7 +225,8 @@ function ListingDetailPage() {
   );
 }
 
-// SellerInfo component unchanged
+// SellerInfo unchanged
+
 function SellerInfo({ sellerId, username }) {
   const [profilePic, setProfilePic] = useState(null);
 
@@ -187,9 +239,7 @@ function SellerInfo({ sellerId, username }) {
           const url = URL.createObjectURL(blob);
           setProfilePic(url);
         }
-      } catch (err) {
-        // ignore errors
-      }
+      } catch (err) {}
     }
     fetchProfilePic();
     return () => {
