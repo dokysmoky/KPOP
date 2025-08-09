@@ -10,6 +10,7 @@ import './components/Header.css';
 import ProfilePage from './pages/ProfilePage';
 import CreateListing from './components/CreateListing';
 import Footer from './components/Footer';
+import WishlistPage from './pages/WishlistPage'; 
 
 /*function App() {
   return (
@@ -36,6 +37,7 @@ function App() {
           <Routes>
             <Route path="/" element={<HomePage />} />
             <Route path="/listings" element={<Listings />} />
+            <Route path="/wishlist" element={<WishlistPage />} /> 
             <Route path="/create-listing" element={<CreateListing />} />
             <Route path="/register" element={<RegisterPage />} />
             <Route path="/login" element={<LoginPage />} />
