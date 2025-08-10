@@ -84,7 +84,7 @@ useEffect(() => {
         }
       );
 
-      const updatedUser = response.data.updatedUser || {};
+      const updatedUser = response.data || {};
       let profile_picture_url = null;
       if (updatedUser.profile_picture && updatedUser.profile_picture.data) {
         profile_picture_url = `data:image/jpeg;base64,${bufferToBase64(updatedUser.profile_picture)}`;
@@ -92,9 +92,10 @@ useEffect(() => {
 
       const userToStore = {
   ...user,
+  id: user.id || updatedUser.id || updatedUser.user_id, // keep ID safe
   age: updatedUser.age,
   bio: updatedUser.bio,
-  ...(profile_picture_url && { profile_picture_url }), // only add if it exists
+  ...(profile_picture_url && { profile_picture_url }),
 };
 
 

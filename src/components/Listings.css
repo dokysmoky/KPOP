@@ -134,6 +134,7 @@
   font-weight: 500;
   color: #cc3366;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+  font-size: small !important;
 }
 
 .auth-warning a {

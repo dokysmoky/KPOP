@@ -7,7 +7,7 @@ import './CreateListing.css';
 import { useRef } from 'react';
 
 function CreateListing() {
-  const { user } = useAuth();
+  const { user, token} = useAuth();
   const navigate = useNavigate();
 
   const [formData, setFormData] = useState({
@@ -56,12 +56,14 @@ function CreateListing() {
     if (formData.photo) {
       data.append('photo', formData.photo);
     }
-    data.append('user_id', user.user_id);
+    
 
     try {
       await axios.post('http://88.200.63.148:4200/listings', data, {
-        headers: { 'Content-Type': 'multipart/form-data' },
-      });
+        headers: { 'Content-Type': 'multipart/form-data',
+         'Authorization': `Bearer ${token}`
+      }
+    });
       alert('Listing created!');
       setFormData({
         listing_name: '',
