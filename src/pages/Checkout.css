@@ -1,0 +1,122 @@
+.backg {
+  margin-top: 70px;
+  min-height: 100vh;
+  background-image: url('/public/8.gif'); 
+  background-size: cover;
+  background-position: center;
+  padding: 2rem;
+  color: #53116d;
+  font-family: 'Poppins', sans-serif;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+}
+
+.checkout-form {
+  background: rgba(125, 251, 255, 0.5);
+  max-width: 480px;
+  margin: 2rem auto;
+  padding: 2rem;
+  border-radius: 16px;
+  box-shadow: 0 8px 24px rgba(83, 17, 109, 0.3);
+  color: #53116d;
+  font-family: 'Poppins', sans-serif;
+  display: flex;
+  flex-direction: column;
+  gap: 1.2rem;
+}
+
+.checkout-title {
+  font-size: 2rem;
+  margin-bottom: 1rem;
+  text-align: center;
+}
+
+.form-label {
+  display: flex;
+  flex-direction: column;
+  font-weight: 600;
+  font-size: 1.1rem;
+}
+
+.address-input {
+  margin-top: 0.5rem;
+  padding: 0.8rem 1rem;
+  font-size: 1rem;
+  border-radius: 12px;
+  border: 2px solid #53116d;
+  resize: vertical;
+  font-family: 'Poppins', sans-serif;
+}
+
+.payment-methods {
+  border: 2px solid #53116d;
+  border-radius: 12px;
+  padding: 1rem 1.5rem;
+  font-weight: 600;
+  font-size: 1rem;
+  color: #53116d;
+}
+
+.payment-methods legend {
+  padding: 0 0.5rem;
+  font-weight: 700;
+}
+
+.payment-methods label {
+  display: block;
+  margin-top: 0.5rem;
+  cursor: pointer;
+  font-weight: 500;
+}
+
+.price-summary {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: #53116d;
+  border-top: 1px solid #53116d;
+  padding-top: 1rem;
+}
+
+.price-summary p {
+  margin: 0.3rem 0;
+  display: flex;
+  justify-content: space-between;
+}
+
+.price-summary .total-amount {
+  font-size: 1.3rem;
+  font-weight: 700;
+  margin-top: 0.8rem;
+}
+
+.error-message {
+  color: #d32f2f;
+  font-weight: 600;
+  text-align: center;
+  margin-top: 0.5rem;
+}
+
+.place-order-btn {
+  margin-top: 1.5rem;
+  background: #53116d;
+  color: white;
+  border: none;
+  padding: 1rem 1.2rem;
+  font-weight: 700;
+  border-radius: 12px;
+  cursor: pointer;
+  transition: background 0.3s ease, transform 0.15s ease;
+  font-family: 'Poppins', sans-serif;
+}
+
+.place-order-btn:hover:not(:disabled) {
+  background: linear-gradient(90deg, #7dfff5, #7dffb8);
+  color: #53116d;
+  transform: scale(1.05);
+}
+
+.place-order-btn:disabled {
+  background: #ccc;
+  cursor: not-allowed;
+}

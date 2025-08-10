@@ -3,7 +3,7 @@ import { useAuth } from '../context/AuthContext';
 import { useLocation, useNavigate } from 'react-router-dom';
 import '../App.css';
 import '../components/Header.css';
-
+import './Checkout.css';
 
 function CheckoutPage({ onOrderPlaced }) {
   const { token, user } = useAuth();
@@ -23,7 +23,6 @@ function CheckoutPage({ onOrderPlaced }) {
   const totalAmount = cartTotal + SHIPPING_COST;
 
   useEffect(() => {
-    // Fetch user profile to prefill address, if available
     async function fetchUserProfile() {
       if (!token || !user?.id) return;
       try {
@@ -31,7 +30,6 @@ function CheckoutPage({ onOrderPlaced }) {
           headers: { Authorization: `Bearer ${token}` },
         });
         const data = await res.json();
-        // Assume user profile has address field or you can store it elsewhere
         if (data.address) setAddress(data.address);
       } catch (err) {
         console.error('Failed to fetch profile:', err);
@@ -39,8 +37,9 @@ function CheckoutPage({ onOrderPlaced }) {
     }
     fetchUserProfile();
   }, [token, user]);
-if (!cart || !cart.items || cart.items.length === 0) {
-    return <p>Your cart is empty. Please add items before checking out.</p>;
+
+  if (!cart || !cart.items || cart.items.length === 0) {
+    return <p className="empty-cart-msg">Your cart is empty. Please add items before checking out.</p>;
   }
 
   async function handleSubmit(e) {
@@ -75,22 +74,23 @@ if (!cart || !cart.items || cart.items.length === 0) {
   }
 
   return (
-    <form onSubmit={handleSubmit}>
-      <h2>Checkout</h2>
+     <div className="backg">
+    <form className="checkout-form" onSubmit={handleSubmit}>
+      <h2 className="checkout-title">Checkout</h2>
 
-      <label>
+      <label className="form-label">
         Shipping Address:
         <textarea 
+          className="address-input"
           value={address} 
           onChange={e => setAddress(e.target.value)} 
           required 
           rows={3}
-          style={{ width: '100%' }}
         />
       </label>
 
-      <div>
-        <p>Payment Method:</p>
+      <fieldset className="payment-methods">
+        <legend>Payment Method:</legend>
         <label>
           <input 
             type="radio" 
@@ -101,7 +101,7 @@ if (!cart || !cart.items || cart.items.length === 0) {
           />
           Pay on Pickup
         </label>
-        <label style={{ marginLeft: '20px' }}>
+        <label>
           <input 
             type="radio" 
             name="payment_method" 
@@ -111,19 +111,23 @@ if (!cart || !cart.items || cart.items.length === 0) {
           />
           Credit Card (dummy)
         </label>
+      </fieldset>
+
+      <div className="price-summary">
+        <p>Items total: <span>${cartTotal.toFixed(2)}</span></p>
+        <p>Shipping cost: <span>${SHIPPING_COST.toFixed(2)}</span></p>
+        <p className="total-amount">Total: <span>${totalAmount.toFixed(2)}</span></p>
       </div>
 
-      <p>Items total: ${cartTotal.toFixed(2)}</p>
-      <p>Shipping cost: ${SHIPPING_COST.toFixed(2)}</p>
-      <p><strong>Total: ${totalAmount.toFixed(2)}</strong></p>
+      {error && <p className="error-message">{error}</p>}
 
-      {error && <p style={{ color: 'red' }}>{error}</p>}
-
-      <button type="submit" disabled={loading}>
+      <button className="place-order-btn" type="submit" disabled={loading}>
         {loading ? 'Processing...' : 'Place Order'}
       </button>
     </form>
+    </div>
   );
 }
 
 export default CheckoutPage;
+

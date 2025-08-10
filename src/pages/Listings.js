@@ -4,12 +4,14 @@ import Listing from '../components/Listings';
 import '../App.css';
 import '../components/Header.css';
 import { useNavigate } from 'react-router-dom';
+import '../components/Listings.css';
 
 function ListingsPage() {
   const { user, token } = useAuth();
   const [listings, setListings] = useState([]);
   const [wishlist, setWishlist] = useState([]);
   const navigate = useNavigate();
+  const [searchTerm, setSearchTerm] = useState(''); 
 
   // Fetch all listings
   useEffect(() => {
@@ -38,6 +40,10 @@ function ListingsPage() {
         .catch(err => console.error('Error fetching wishlist:', err));
     }
   }, [user, token]);
+
+  const filteredListings = listings.filter(listing =>
+    (listing.listing_name || '').toLowerCase().includes(searchTerm.toLowerCase())
+  );
 
   async function toggleLike(productId) {
     if (!token || !user) {
@@ -111,10 +117,18 @@ async function addToCart(productId) {
 
 
   return (
-    <div>
-      <h2>All Listings</h2>
+    <div className="listingpage">
+ {/* Search input */}
+      <input
+        type="text"
+        placeholder="Search listings..."
+        value={searchTerm}
+        onChange={(e) => setSearchTerm(e.target.value)}
+       className="search-input"
+      />
+
       <div className="listings-container">
-        {listings.map((listing) => (
+        {filteredListings.map((listing) => (
           <Listing
             key={listing.product_id}
             listing={listing}

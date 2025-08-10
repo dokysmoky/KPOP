@@ -1,62 +1,139 @@
+.backg{
+  margin-top:70px;
+  min-height: 100vh;
+  background-image: url('/public/8.gif'); 
+  background-size: cover;
+  background-position: center;
+  padding: 2rem;
+  color: #53116d;
+  font-family: 'Poppins', sans-serif;
+  
+}
+
+
+
 .listing-detail-container {
   display: flex;
-  gap: 2rem;
+  gap: 1.5rem;
   padding: 1rem;
-  padding-top: 80px;
+  border-radius: 16px;
+  background: rgba(125, 251, 255, 0.5); /* frosted glass effect */  
+  max-width: 1200px;
+  backdrop-filter: blur(8px);
+  box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+  margin: 0 auto;
+  margin-top: 80px;
+  margin-bottom: 80px;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  
 }
 
 .listing-image {
-  flex: 1;
+  flex: 0 0 500px;
+  max-width: 500px;
 }
 
 .listing-image img {
   width: 100%;
-  border-radius: 8px;
+  height: auto;
+  border-radius: 12px;
+  max-height: 550px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+  flex-shrink: 0;
+  object-fit: cover;
 }
 
 .listing-details {
   flex: 1;
   display: flex;
   flex-direction: column;
-  background: linear-gradient(135deg, #f5f7fa, #c3cfe2);
+  background: white;
   padding: 1.5rem;
   border-radius: 12px;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+  max-width: 500px;
+  box-shadow: 0 4px 16px rgba(0,0,0,0.08);
+  
+}
+
+.deco p{
+  font-size: 1.2rem !important;  /* smaller text */
+  line-height: 1.4;
+}
+
+.listing-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between; /* pushes name left, buttons right */
+  gap: 1rem;
+}
+
+.listing-header h1 {
+  margin: 0;
+  font-size: 1.75rem;
+  flex: 1;
+}
+
+.listing-header .button-group {
+  display: flex;
+  gap: 0.5rem;
 }
 
 .button-group {
   margin-bottom: 1rem;
+  display: flex;
+  gap: 0.5rem;
 }
 
+
 .pretty-button {
-  padding: 0.5rem 1rem;
+  padding: 0.6rem 1.2rem;
   border: none;
   border-radius: 8px;
   cursor: pointer;
-  background: linear-gradient(135deg, #667eea, #764ba2);
+  background:  #53116d;
   color: white;
   font-weight: bold;
-  transition: transform 0.1s ease-in-out;
+  transition: transform 0.1s ease-in-out, box-shadow 0.2s;
 }
+
+
 
 .pretty-button:hover {
   transform: scale(1.05);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+  background: linear-gradient(90deg, #7dfff5, #7dffb8);
+  color: #53116d;
+  font-weight: bold;
 }
 
 .pretty-button.red {
-  background: linear-gradient(135deg, #ff5f6d, #ffc371);
+    background:  #53116d;
 }
 
-.pretty-button.orange {
-  background: linear-gradient(135deg, #f6d365, #fda085);
+.pretty-button.red:hover {
+    background: linear-gradient(90deg, #7dfff5, #7dffb8);
+  color: #53116d;
+  font-weight: bold;
 }
+
+
+.pretty-button.orange {
+    background:  #53116d;
+}
+
+.pretty-button.orange:hover {
+    background: linear-gradient(90deg, #7dfff5, #7dffb8);
+  color: #53116d;
+  font-weight: bold;
+}
+
 
 .comments-section {
   margin-top: 2rem;
 }
 
 .comment {
-  border-bottom: 1px solid #ddd;
+  border-bottom: 1px solid #e2e8f0;
   padding: 0.5rem 0;
 }
 
@@ -66,4 +143,6 @@
   border: none;
   padding: 0;
   font-size: 0.9rem;
+  color: #3182ce;
 }
+

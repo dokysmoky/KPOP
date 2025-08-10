@@ -13,53 +13,59 @@ function Listing({ listing, user, isLiked, onToggleLike, onAddToCart, onClick, i
     : fallbackImage;
 
   return (
-    <div className="listing" onClick={onClick} style={{ cursor: 'pointer' }}>
-      {imageUrl && (
-        <img src={imageUrl} alt={listing.title} className="listing-image" />
-      )}
+    <div className="Listingpage">
+    <div className="listing-card" onClick={onClick}>
+      <div className="listing-inner"> {}
+        {imageUrl && (
+          <img src={imageUrl} alt={listing.title} className="listing-image" />
+        )}
 
-      <h3>{listing.title}</h3>
-      <p>{listing.description}</p>
+        <div className="listing-details">
+          <h1>{listing.listing_name}</h1>
+          <p>{listing.price} $</p>
 
-      {user ? (
-        <>
-          <button
-            onClick={e => {
-              e.stopPropagation();
-              if (onAddToCart) {
-                onAddToCart(listing.product_id);
-              }
-            }}
-          >
-            Add to Cart
-          </button>
+          {user ? (
+            <div className="listing-actions"> {}
+              <button
+                className="cart-btn"
+                onClick={e => {
+                  e.stopPropagation();
+                  if (onAddToCart) onAddToCart(listing.product_id);
+                }}
+              >
+                <img src="10.png" alt="Add to wishlist" class="icon1"  />
+                </button>             
 
-          {isWishlistItem ? (
-            <button
-              onClick={e => {
-                e.stopPropagation();
-                if (onRemoveFromWishlist) onRemoveFromWishlist();
-              }}
-              style={{ color: 'red' }}
-            >
-              Remove from Wishlist
-            </button>
+              {isWishlistItem ? (
+                <button
+                  className="like-btn"
+                  onClick={e => {
+                    e.stopPropagation();
+                    if (onRemoveFromWishlist) onRemoveFromWishlist();
+                  }}
+                >
+                  Remove from wishlist
+                </button>
+              ) : (
+                <button
+                  className="like-btn"
+                  onClick={e => {
+                    e.stopPropagation();
+                    onToggleLike(listing.product_id);
+                  }}
+                >
+                  {isLiked ? <img src="5.png" alt="Add to wishlist" class="icon" /> : <img src="9.png" alt="Remove from wishlist" class="icon" />}
+                </button>
+              )}
+            </div>
           ) : (
-            <button
-              onClick={e => {
-                e.stopPropagation();
-                onToggleLike(listing.product_id);
-              }}
-            >
-              {isLiked ? '❤️ Unlike' : '🤍 Like'}
-            </button>
+            <p className="auth-warning">
+              <a href="/login">Login</a> or <a href="/register">Register</a> to interact with listings.
+            </p>
           )}
-        </>
-      ) : (
-        <p className="auth-warning">
-          <a href="/login">Login</a> or <a href="/register">Register</a> to interact with listings.
-        </p>
-      )}
+        </div>
+      </div>
+    </div>
     </div>
   );
 }

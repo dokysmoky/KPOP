@@ -185,24 +185,30 @@ useEffect(() => {
         {myListings.length === 0 && !loadingListings && <p>You have no listings yet.</p>}
 <div className="listings-grid">
   {myListings.map(listing => (
-    <div
-      key={listing.product_id}
-      className="listing-card"
-      onClick={() => navigate(`/listing/${listing.product_id}`)}
-      style={{ cursor: 'pointer' }}
-    >
-      {listing.photo ? (
-        <img
-          src={listing.photo}
-          alt={listing.listing_name || 'Listing photo'}
-          className="listing-photo"
-        />
-      ) : (
-        <div className="no-photo">No photo</div>
-      )}
-      <h3>{listing.listing_name || 'Untitled'}</h3>
+   <div
+  key={listing.product_id}
+  className="listing-card"
+  onClick={() => navigate(`/listing/${listing.product_id}`)}
+  style={{ cursor: 'pointer' }}
+>
+  <div className="listing-inner">
+    {listing.photo ? (
+      <img
+        src={listing.photo}
+        alt={listing.listing_name || 'Listing photo'}
+        className="listing-image"
+      />
+    ) : (
+      <div className="no-photo">No photo</div>
+    )}
+
+    <div className="listing-details">
+      <h1>{listing.listing_name || 'Untitled'}</h1>
       <p>{listing.description?.slice(0, 100)}...</p>
     </div>
+  </div>
+</div>
+
   ))}
 </div>
 

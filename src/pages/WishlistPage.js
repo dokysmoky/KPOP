@@ -2,6 +2,8 @@ import React, { useEffect, useState } from 'react';
 import { useAuth } from '../context/AuthContext';
 import Listing from '../components/Listings';
 import '../App.css';
+import '../components/Listings.css';
+
 
 function WishlistPage() {
   const { user, token } = useAuth();
@@ -97,10 +99,10 @@ async function addToCart(productId) {
 
 
   return (
-    <div>
-      <h2>Your Wishlist</h2>
+    <div className="wishlist-page">
+      <h2 >Your Wishlist</h2>
       <div className="listings-container">
-        {wishlist.length === 0 && <p>Your wishlist is empty.</p>}
+        {wishlist.length === 0 && <p className="h2">Your wishlist is empty.</p>}
         {wishlist.map((listing) => (
           <Listing key={listing.product_id} listing={listing} user={user} isWishlistItem={true}
             onRemoveFromWishlist={() => handleRemoveFromWishlist(listing.product_id)} onAddToCart={addToCart} />

@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
+import './ListingDetailPage.css';
 
 function ListingDetailPage() {
   const { product_id } = useParams();
@@ -188,132 +189,147 @@ function ListingDetailPage() {
   if (!listing) return <p>Listing not found</p>;
 
   return (
+      <div className="backg">
+  <div className="listing-detail-container">
+    <div className="listing-image">
+      {listing.photo ? (
+        <img
+          src={listing.photo}
+          alt={listing.listing_name}
+        />
+      ) : (
+        <div style={{
+          width: '100%',
+          maxWidth: '300px',
+          maxHeight: '300px',
+          objectFit: 'cover',
+          borderRadius: '8px',
+          backgroundColor: '#eee'
+        }}>No Image</div>
+      )}
+    </div>
+
+    <div className="listing-details">
+  <div className="listing-header">
+    <h1 >{listing.listing_name}</h1>
+    <div className="button-group">
+      {user && user.id === listing.seller_id && !isEditing && (
+        <>
+          <button className="pretty-button" onClick={() => setIsEditing(true)}>Edit</button>
+          <button className="pretty-button red" onClick={handleDeleteListing}>Delete</button>
+        </>
+      )}
+      <button
+        className="pretty-button orange"
+        onClick={() =>
+          handleReport({
+            productId: Number(product_id.replace(/[^\d]/g, "")),
+            reportedUserId: listing.seller_id,
+            commentId: null,
+          })
+        }
+      >
+        Report Post
+      </button>
+    </div>
+  </div>
+
+  {isEditing ? (
+    <div>
+      <input type="text" value={editData.listing_name} onChange={e => setEditData({ ...editData, listing_name: e.target.value })} placeholder="Listing name" />
+      <textarea value={editData.description} onChange={e => setEditData({ ...editData, description: e.target.value })} placeholder="Description" />
+      <input type="text" value={editData.condition} onChange={e => setEditData({ ...editData, condition: e.target.value })} placeholder="Condition" />
+      <input type="number" value={editData.price} onChange={e => setEditData({ ...editData, price: e.target.value })} placeholder="Price" />
+      <div style={{ marginTop: '0.5rem' }}>
+        <button className="pretty-button" onClick={handleSaveEdit}>Save</button>
+        <button className="pretty-button orange" onClick={() => setIsEditing(false)} style={{ marginLeft: '0.5rem' }}>Cancel</button>
+      </div>
+    </div>
+  ) : (
     <>
-      <style>{`
-        .listing-info {
-          display: flex;
-          gap: 2rem;
-          margin-top: 2rem;
-        }
-        .button {
-          padding: 0.4rem 0.8rem;
-          border: none;
-          border-radius: 4px;
-          cursor: pointer;
-        }
-        .button-primary {
-          background-color: #007bff;
-          color: white;
-        }
-        .button-danger {
-          background-color: #dc3545;
-          color: white;
-        }
-        .button-warning {
-          background-color: #ffc107;
-          color: black;
-        }
-        textarea, input {
-          display: block;
-          width: 100%;
-          margin-bottom: 0.5rem;
-          padding: 0.5rem;
-        }
-      `}</style>
-
-      <div className="listing-info">
-        <div style={{ flex: '1' }}>
-          {listing.photo ? (
-            <img src={listing.photo} alt={listing.listing_name} style={{ width: '100%', borderRadius: '8px' }} />
-          ) : (
-            <div style={{ width: '100%', maxWidth: '300px', // limit width
-      maxHeight: '300px', // limit height
-      objectFit: 'cover', // crop rather than distort
-      borderRadius: '8px', backgroundColor: '#eee' }}>No Image</div>
-          )}
-        </div>
-
-        <div style={{ flex: '1', display: 'flex', flexDirection: 'column' }}>
-          {user && user.id === listing.seller_id && !isEditing && (
-            <div style={{ marginBottom: '1rem' }}>
-              <button className="button button-primary" onClick={() => setIsEditing(true)} style={{ marginRight: '0.5rem' }}>Edit</button>
-              <button onClick={handleDeleteListing}>Delete</button>
-            </div>
-          )}
-
-          {isEditing ? (
-            <div>
-              <input type="text" value={editData.listing_name} onChange={e => setEditData({ ...editData, listing_name: e.target.value })} placeholder="Listing name" />
-              <textarea value={editData.description} onChange={e => setEditData({ ...editData, description: e.target.value })} placeholder="Description" />
-              <input type="text" value={editData.condition} onChange={e => setEditData({ ...editData, condition: e.target.value })} placeholder="Condition" />
-              <input type="number" value={editData.price} onChange={e => setEditData({ ...editData, price: e.target.value })} placeholder="Price" />
-              <div style={{ marginTop: '0.5rem' }}>
-                <button onClick={handleSaveEdit}>Save</button>
-                <button onClick={() => setIsEditing(false)} style={{ marginLeft: '0.5rem' }}>Cancel</button>
-              </div>
-            </div>
-          ) : (
-            <>
-              <h1>{listing.listing_name}</h1>
-              <p>{listing.description}</p>
-              <p><strong>Condition:</strong> {listing.condition}</p>
-              <p><strong>Price:</strong> ${listing.price}</p>
-            </>
-          )}
-
-          <button className="button button-warning" onClick={() =>
-            handleReport({
-              productId: Number(product_id.replace(/[^\d]/g, "")),
-              reportedUserId: listing.seller_id,
-              commentId: null,
-            })
-          } style={{ marginBottom: '1rem' }}>
-            Report Post
-          </button>
-
-          <div style={{ marginTop: '1rem', borderTop: '1px solid #ccc', paddingTop: '1rem', display: 'flex', alignItems: 'center', gap: '1rem' }}>
-            <SellerInfo sellerId={listing.seller_id} username={listing.username} />
-          </div>
-
-          <div style={{ marginTop: '2rem' }}>
-            <h3>Comments</h3>
-            {comments.length === 0 && <p>No comments yet.</p>}
-            <ul style={{ listStyle: 'none', padding: 0 }}>
-              {comments.map(c => (
-                <li key={c.comment_id} style={{ borderBottom: '1px solid #ddd', padding: '0.5rem 0' }}>
-                  <b>{c.username}</b> <small style={{ color: '#666' }}>{new Date(c.comment_date).toLocaleString()}</small>
-                  <p>{c.comment_text}</p>
-                  {user && (user.id === c.user_id || user.is_admin) && (
-                    <button className="button button-danger" onClick={() => handleDeleteComment(c.comment_id)} style={{ marginRight: '1rem' }}>
-                      Delete
-                    </button>
-                  )}
-                  <button onClick={() =>
-                    handleReport({
-                      productId: Number(product_id.replace(/[^\d]/g, "")),
-                      commentId: c.comment_id,
-                      reportedUserId: c.user_id,
-                    })
-                  } style={{ color: 'orange', cursor: 'pointer', background: 'none', border: 'none', padding: 0 }}>
-                    Report
-                  </button>
-                </li>
-              ))}
-            </ul>
-
-            {user ? (
-              <form onSubmit={handleSubmitComment} style={{ marginTop: '1rem' }}>
-                <textarea value={commentText} onChange={e => setCommentText(e.target.value)} placeholder="Write a comment..." rows={3} />
-                <button type="submit" disabled={!commentText.trim()} style={{ marginTop: '0.5rem' }}>Post Comment</button>
-              </form>
-            ) : (
-              <p><a href="/login">Login</a> to post comments.</p>
-            )}
-          </div>
-        </div>
+    <div className="deco">
+      <p><strong>Description:</strong>{listing.description}</p>
+      <p><strong>Condition:</strong> {listing.condition}</p>
+      <p><strong>Price:</strong> ${listing.price}</p>
       </div>
     </>
-  );
+  )}
+
+  <div style={{ marginTop: '1rem', borderTop: '1px solid #ccc', paddingTop: '1rem', display: 'flex', alignItems: 'center', gap: '1rem' }}>
+    <SellerInfo sellerId={listing.seller_id} username={listing.username} />
+  </div>
+
+      {/* Comments section */}
+      <div className="comments-section">
+        <h3 style={{ textAlign: 'left' }}>Comments</h3>
+        {comments.length === 0 && <p>No comments yet.</p>}
+        <ul style={{ listStyle: 'none', padding: 0 }}>
+  {comments.map(c => (
+    <li key={c.comment_id} className="comment" style={{ marginBottom: '1rem', borderBottom: '1px solid #ddd', paddingBottom: '0.5rem' }}>
+      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+        <div>
+          <b>{c.username}</b>{' '}
+          <small style={{ color: '#666' }}>
+            {new Date(c.comment_date).toLocaleDateString()} {new Date(c.comment_date).toLocaleTimeString()}
+          </small>
+        </div>
+        <div style={{ display: 'flex', gap: '0.5rem' }}>
+          <button
+            className="pretty-button orange"
+            onClick={() =>
+              handleReport({
+                productId: Number(product_id.replace(/[^\d]/g, "")),
+                commentId: c.comment_id,
+                reportedUserId: c.user_id,
+              })
+            }
+          >
+            Report
+          </button>
+          {user && (user.id === c.user_id || user.is_admin) && (
+            <button className="pretty-button red" onClick={() => handleDeleteComment(c.comment_id)}>Delete</button>
+          )}
+        </div>
+      </div>
+      <p style={{ marginTop: '0.25rem' }}>{c.comment_text}</p>
+    </li>
+  ))}
+</ul>
+
+
+       {user ? (
+  <form onSubmit={handleSubmitComment} style={{ marginTop: '1rem', width: '100%' }}>
+    <textarea
+      value={commentText}
+      onChange={e => setCommentText(e.target.value)}
+      placeholder="Write a comment..."
+      rows={3}
+      style={{
+        width: '100%',
+        boxSizing: 'border-box',
+        resize: 'vertical',
+        padding: '0.5rem',
+        fontSize: '1rem'
+      }}
+    />
+    <button
+      type="submit"
+      disabled={!commentText.trim()}
+      className="pretty-button"
+      style={{ marginTop: '0.5rem', display: 'inline-block' }}
+    >
+      Post Comment
+    </button>
+  </form>
+) : (
+  <p><a href="/login">Login</a> to post comments.</p>
+)}
+
+      </div>
+    </div>
+  </div>
+  </div>
+);
 }
 
 function SellerInfo({ sellerId, username }) {

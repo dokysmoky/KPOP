@@ -59,9 +59,9 @@ function CartPage() {
   }
 
   return (
-    <div>
-      <h2>Your Cart</h2>
-      {(!cart.items || cart.items.length === 0) && <p>Your cart is empty.</p>}
+    <div className='cart-page'>
+      <h2 className="h2">Your Cart</h2>
+      {(!cart.items || cart.items.length === 0) && <p className="h2">Your cart is empty.</p>}
       {cart.items && cart.items.map(item => (
         <div key={item.cart_item_id} className="cart-item">
           <img
@@ -71,19 +71,21 @@ function CartPage() {
                 : `data:image/jpeg;base64,${item.photo}` || '/3.png'
             }
             alt={item.listing_name}
-            style={{ width: '100px' }}
+            
           />
-          <h3>{item.listing_name}</h3>
-          <p>Price: ${item.price}</p>
-          <p>Quantity: {item.quantity}</p>
+          <div className="cart-details">
+          <h3 className="h3">{item.listing_name}</h3>
+          <p className='description'>Price: ${item.price}</p>
+          <p className='description' >Quantity: {item.quantity}</p>
+          </div>
           <button onClick={() => handleRemove(item.cart_item_id)}>Remove</button>
         </div>
+        
       ))}
 
       {cart.items && cart.items.length > 0 && (
         <button
-          style={{ marginTop: '20px', padding: '10px 20px', fontSize: '16px' }}
-          onClick={() => navigate('/checkout', { state: { cart } })}
+        className="checkout-btn" onClick={() => navigate('/checkout', { state: { cart } })}
         >
           Proceed to Checkout
         </button>

@@ -8,7 +8,7 @@
 }
 
 .listing-box {
-  background: linear-gradient(to right, #d5c2f4, #f1bde9);
+  background: linear-gradient(130deg, #c3a9e0, #8254b8, #45167a, #320338);
   padding: 2rem 3rem;
   border-radius: 12px;
   box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);

@@ -62,6 +62,7 @@ body {
 
 /* Section headers */
 h2 {
+  
   margin-bottom: 1.5rem;
   color: #ff5ebc;
   font-size: 2rem;
@@ -124,7 +125,7 @@ p {
   background-image: url('/public/2.gif'); 
   background-size: cover;
   background-position: center;
-  height: 700px;
+  height: 900px;
   width: 100%;
   position: relative;
   display: flex;
@@ -184,3 +185,111 @@ html, body, #root, .app-container {
 .main-content {
   flex: 1; /* This makes the content take all available vertical space */
 }
+
+.cart-page {
+  margin-top:70px;
+  min-height: 100vh;
+  background-image: url('/public/8.gif'); 
+  background-size: cover;
+  background-position: center;
+  padding: 2rem;
+  color: #53116d;
+  font-family: 'Poppins', sans-serif;
+}
+
+.cart-item {
+  display: flex;
+  align-items: center;
+  background: rgba(125, 251, 255, 0.5); /* frosted glass effect */
+  backdrop-filter: blur(8px);
+  border-radius: 16px;
+  padding: 1rem;
+  margin-bottom: 1rem;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.cart-item:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 14px rgba(0,0,0,0.3);
+}
+
+.cart-item img {
+  border-radius: 12px;
+  margin-right: 1rem;
+  width: 100px;
+  height: 100px;
+  object-fit: cover;
+}
+
+.cart-item button,
+.checkout-btn {
+  border: none;
+  border-radius: 12px;
+  padding: 0.6rem 1.2rem;
+  font-size: 0.95rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.cart-item button {
+  background:  #53116d;
+  color: white;
+}
+
+.cart-item button:hover {
+  background: linear-gradient(90deg, #7dfff5, #7dffb8);
+  color: #53116d;
+  font-weight: bold;
+}
+
+.checkout-btn {
+  display: block;
+  margin: 2rem auto 0;
+  background: linear-gradient(90deg, #7dfff5, #7dffb8);
+  color: #53116d;
+  font-weight: bold;
+}
+
+.checkout-btn:hover {
+  background: linear-gradient(90deg, #7dffb8, #7dfff5);
+}
+
+.description{
+  color:#53116d;
+  font-weight: bold;
+}
+
+.cart-details {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 0.05rem;
+}
+
+.h3{
+  font-size: 1.5rem;
+}
+
+.cart-meta {
+  display: flex;
+  gap: 0.05rem;
+  align-items: center;
+}
+
+.cart-meta p {
+  margin: 0;
+}
+
+.h2 {
+
+  background-color: #53116d;
+  color: white;
+  padding: 0.5rem 1rem;
+  border-radius: 8px;
+  display: block;
+  font-weight: bold;
+  text-align: center;
+  margin-bottom: 0.5rem; /* space between the two */
+}
+
