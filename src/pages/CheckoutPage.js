@@ -10,7 +10,7 @@ function CheckoutPage({ onOrderPlaced }) {
   const location = useLocation();
   const navigate = useNavigate();
 
-  const cart = location.state?.cart || { items: [] };
+const [cart, setCart] = useState({ items: [] });
 
   const [address, setAddress] = useState('');
   const [paymentMethod, setPaymentMethod] = useState('pay_on_pickup');
@@ -21,6 +21,24 @@ function CheckoutPage({ onOrderPlaced }) {
 
   const cartTotal = cart.items.reduce((sum, item) => sum + item.price * item.quantity, 0);
   const totalAmount = cartTotal + SHIPPING_COST;
+
+useEffect(() => {
+  async function fetchCart() {
+    if (!token) return;
+    try {
+      const res = await fetch('http://88.200.63.148:4200/cart', {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+      if (!res.ok) throw new Error('Failed to fetch cart');
+      const data = await res.json();
+      setCart(data);
+    } catch (err) {
+      console.error('Error fetching cart:', err);
+    }
+  }
+  fetchCart();
+}, [token]);
+
 
   useEffect(() => {
     async function fetchUserProfile() {

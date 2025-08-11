@@ -175,3 +175,182 @@ display: inline-block;
   font-style: italic;
   margin-bottom: 0.8rem;
 }
+
+
+.offers-list {
+  max-width: 700px;
+  margin: 0 auto;
+  font-family: 'Poppins', sans-serif;
+  color: #53116d;
+}
+
+.offer-card {
+  background: rgba(125, 251, 255, 0.5);
+  border-radius: 16px;
+  box-shadow: 0 6px 18px rgba(83, 17, 109, 0.2);
+  padding: 1.2rem 1.5rem;
+  margin-bottom: 1.2rem;
+  transition: box-shadow 0.3s ease;
+}
+
+.offer-card:hover {
+  box-shadow: 0 12px 30px rgba(83, 17, 109, 0.4);
+}
+
+.offer-status {
+  font-weight: 600;
+  padding: 0.2rem 0.6rem;
+  border-radius: 10px;
+  text-transform: capitalize;
+  width: fit-content;
+  user-select: none;
+  background: #e0d4f7;
+  color: #53116d;
+}
+
+/* Different colors based on status */
+.offer-status.pending {
+  background-color: #ffeaa7;
+  color: #6c5ce7;
+}
+
+.offer-status.accepted {
+  background-color: #55efc4;
+  color: #0984e3;
+}
+
+.offer-status.rejected {
+  background-color: #fab1a0;
+  color: #d63031;
+}
+
+.offer-actions {
+  margin-top: 1rem;
+  display: flex;
+  gap: 1rem;
+}
+
+.offer-button {
+  padding: 0.4rem 1rem;
+  border-radius: 12px;
+  border: none;
+  cursor: pointer;
+  font-weight: 700;
+  transition: background 0.25s ease;
+  font-family: 'Poppins', sans-serif;
+}
+
+.offer-button.accept {
+  background: #7dfff5;
+  color: #53116d;
+}
+
+.offer-button.accept:hover {
+  background: #55d4cd;
+}
+
+.offer-button.reject {
+  background: #d32f2f;
+  color: white;
+}
+
+.offer-button.reject:hover {
+  background: #9b2222;
+}
+
+.loading-text,
+.error-text,
+.empty-text,
+.waiting-text,
+.accepted-text,
+.rejected-text {
+  font-family: 'Poppins', sans-serif;
+  text-align: center;
+  font-weight: 600;
+  margin-top: 0.5rem;
+}
+
+.loading-text {
+  color: #6c5ce7;
+}
+
+.error-text {
+  color: #d32f2f;
+}
+
+.empty-text {
+  color: #888;
+}
+
+.waiting-text {
+  color: #fdcb6e;
+}
+
+.accepted-text {
+  color: #00b894;
+  font-weight: 700;
+}
+
+.rejected-text {
+  color: #d63031;
+  font-weight: 700;
+}
+
+
+.section-title-box {
+  background-color: #53116d; /* purple */
+  color: white;
+  padding: 0.8rem 1.5rem;
+  border-radius: 12px;
+  max-width: fit-content;
+  margin-bottom: 1rem;
+  font-family: 'Poppins', sans-serif;
+  font-weight: 700;
+  font-size: 1.5rem;
+  box-shadow: 0 4px 12px rgba(83, 17, 109, 0.3);
+}
+
+/* Container for horizontal scroll */
+.horizontal-scroll-wrapper {
+  overflow-x: auto;
+  padding-bottom: 0.5rem;
+  -webkit-overflow-scrolling: touch; /* smooth scroll on iOS */
+}
+
+/* The offers list: flex row, no wrap, gap between cards */
+.offers-list {
+  display: flex;
+  flex-direction: row;
+  gap: 1rem;
+  /* optional min height to prevent collapsing */
+  min-height: 200px;
+  /* allow horizontal scroll */
+  white-space: nowrap;
+}
+
+/* Make each card a flex-shrink: 0 so they don’t shrink */
+.offer-card {
+  flex-shrink: 0;
+  width: 280px; /* fixed width for consistency */
+  background: rgba(125, 251, 255);
+  border-radius: 16px;
+  box-shadow: 0 6px 18px rgba(83, 17, 109, 0.2);
+  padding: 1.2rem 1.5rem;
+  transition: box-shadow 0.3s ease;
+  white-space: normal; /* allow multiline text inside card */
+}
+
+.offer-card:hover {
+  box-shadow: 0 12px 30px rgba(83, 17, 109, 0.4);
+}
+
+/* Responsive: stack vertically on smaller screens */
+@media (max-width: 600px) {
+  .offers-list {
+    flex-direction: column;
+    gap: 1.5rem;
+  }
+  .offer-card {
+    width: 100%;
+  }
+}

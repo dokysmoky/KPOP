@@ -22,6 +22,47 @@ const navigate = useNavigate();
 const [myOffers, setMyOffers] = useState([]);
 const [loadingOffers, setLoadingOffers] = useState(false);
 const [errorOffers, setErrorOffers] = useState(null);
+const [myBuyerOffers, setMyBuyerOffers] = useState([]);
+const [loadingBuyerOffers, setLoadingBuyerOffers] = useState(false);
+const [errorBuyerOffers, setErrorBuyerOffers] = useState(null);
+
+useEffect(() => {
+    if (user?.id && token) {
+      setLoadingBuyerOffers(true);
+      axios.get(`http://88.200.63.148:4200/offers/buyer/${user.id}`, {
+        headers: { Authorization: `Bearer ${token}` }
+      })
+      .then(response => {
+        setMyBuyerOffers(response.data.offers || []);
+        setErrorBuyerOffers(null);
+      })
+      .catch(err => {
+        console.error('Error fetching buyer offers:', err);
+        setErrorBuyerOffers('Failed to load your offers');
+      })
+      .finally(() => setLoadingBuyerOffers(false));
+    }
+  }, [user, token]);
+
+async function handleUpdateOfferStatus(offerId, newStatus) {
+    try {
+      await axios.put(
+        `http://88.200.63.148:4200/offers/${offerId}/status`,
+        { status: newStatus },
+        { headers: { Authorization: `Bearer ${token}` } }
+      );
+      // Refresh seller offers
+      const sellerRes = await axios.get(`http://88.200.63.148:4200/offers/seller/${user.id}`, {
+        headers: { Authorization: `Bearer ${token}` }
+      });
+      setMyOffers(sellerRes.data.offers || []);
+    } catch (err) {
+      console.error(`Failed to update offer status: ${newStatus}`, err);
+      alert(`Failed to ${newStatus} offer`);
+    }
+  }
+
+
 
 useEffect(() => {
   if (user?.id && token) {
@@ -236,27 +277,79 @@ useEffect(() => {
 
       </div>
 
+{/* Offers on Your Listings (Seller) */}
 <div className="my-offers-section" style={{ marginTop: '2rem' }}>
+  <div className="section-title-box">
   <h2>Offers on Your Listings</h2>
+</div>
 
-  {loadingOffers && <p>Loading offers...</p>}
-  {errorOffers && <p style={{ color: 'red' }}>{errorOffers}</p>}
-  {!loadingOffers && myOffers.length === 0 && <p>No offers received yet.</p>}
+  {loadingOffers && <p className="loading-text">Loading offers...</p>}
+  {errorOffers && <p className="error-text">{errorOffers}</p>}
+  {!loadingOffers && myOffers.length === 0 && <p className="empty-text">No offers received yet.</p>}
 
   <div className="offers-list">
     {myOffers.map(offer => (
-      <div key={offer.offer_id} className="offer-card" style={{ border: '1px solid #ccc', padding: '1rem', marginBottom: '1rem' }}>
+      <div key={offer.offer_id} className="offer-card">
         <p><strong>Listing:</strong> {offer.listing_name || 'Unknown'}</p>
         <p><strong>Offer Price:</strong> ${offer.offer_price}</p>
         <p><strong>From:</strong> {offer.buyer_username || 'Unknown'}</p>
         {offer.message && <p><strong>Message:</strong> {offer.message}</p>}
+        <p><strong>Status:</strong> <span className={`offer-status ${offer.status}`}>{offer.status}</span></p>
 
-        {/* Optional: Accept/Reject buttons if supported */}
-        {/* <button onClick={() => handleAcceptOffer(offer.offer_id)}>Accept</button>
-        <button onClick={() => handleRejectOffer(offer.offer_id)}>Reject</button> */}
+        {offer.status === 'pending' && (
+          <div className="offer-actions">
+            <button
+              onClick={() => handleUpdateOfferStatus(offer.offer_id, 'accepted')}
+              className="offer-button accept"
+            >
+              Accept
+            </button>
+            <button
+              onClick={() => handleUpdateOfferStatus(offer.offer_id, 'rejected')}
+              className="offer-button reject"
+              style={{ marginLeft: '0.5rem' }}
+            >
+              Reject
+            </button>
+          </div>
+        )}
       </div>
     ))}
   </div>
+</div>
+
+{/* My Offers (Buyer) */}
+<div className="my-buyer-offers-section" style={{ marginTop: '2rem' }}>
+  <div className="section-title-box">
+  <h2>My Offers</h2>
+</div>
+
+  {loadingBuyerOffers && <p className="loading-text">Loading your offers...</p>}
+  {errorBuyerOffers && <p className="error-text">{errorBuyerOffers}</p>}
+  {!loadingBuyerOffers && myBuyerOffers.length === 0 && <p className="empty-text">You have not made any offers yet.</p>}
+
+ <div className="horizontal-scroll-wrapper">
+  <div className="offers-list">
+    {myBuyerOffers.map(offer => (
+      <div key={offer.offer_id} className="offer-card">
+        <p><strong>Listing:</strong> {offer.listing_name || 'Unknown'}</p>
+        <p><strong>Your Offer Price:</strong> ${offer.offer_price}</p>
+        <p><strong>Status:</strong> <span className={`offer-status ${offer.status}`}>{offer.status}</span></p>
+        {offer.message && <p><strong>Message:</strong> {offer.message}</p>}
+
+        {offer.status === 'pending' && (
+          <p className="waiting-text"><em>Waiting for seller response...</em></p>
+        )}
+        {offer.status === 'accepted' && (
+          <p className="accepted-text">Your offer was accepted!</p>
+        )}
+        {offer.status === 'rejected' && (
+          <p className="rejected-text">Your offer was rejected.</p>
+        )}
+      </div>
+    ))}
+  </div>
+</div>
 </div>
 
     </div>
