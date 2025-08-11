@@ -19,6 +19,27 @@ export default function ProfilePage() {
   const [errorListings, setErrorListings] = useState(null);
 const navigate = useNavigate();
 
+const [myOffers, setMyOffers] = useState([]);
+const [loadingOffers, setLoadingOffers] = useState(false);
+const [errorOffers, setErrorOffers] = useState(null);
+
+useEffect(() => {
+  if (user?.id && token) {
+    setLoadingOffers(true);
+    axios.get(`http://88.200.63.148:4200/offers/seller/${user.id}`, {
+      headers: { Authorization: `Bearer ${token}` }
+    })
+    .then(response => {
+      setMyOffers(response.data.offers || []);
+      setErrorOffers(null);
+    })
+    .catch(err => {
+      console.error('Error fetching offers:', err);
+      setErrorOffers('Failed to load offers');
+    })
+    .finally(() => setLoadingOffers(false));
+  }
+}, [user, token]);
 
 
 useEffect(() => {
@@ -215,6 +236,28 @@ useEffect(() => {
 
       </div>
 
+<div className="my-offers-section" style={{ marginTop: '2rem' }}>
+  <h2>Offers on Your Listings</h2>
+
+  {loadingOffers && <p>Loading offers...</p>}
+  {errorOffers && <p style={{ color: 'red' }}>{errorOffers}</p>}
+  {!loadingOffers && myOffers.length === 0 && <p>No offers received yet.</p>}
+
+  <div className="offers-list">
+    {myOffers.map(offer => (
+      <div key={offer.offer_id} className="offer-card" style={{ border: '1px solid #ccc', padding: '1rem', marginBottom: '1rem' }}>
+        <p><strong>Listing:</strong> {offer.listing_name || 'Unknown'}</p>
+        <p><strong>Offer Price:</strong> ${offer.offer_price}</p>
+        <p><strong>From:</strong> {offer.buyer_username || 'Unknown'}</p>
+        {offer.message && <p><strong>Message:</strong> {offer.message}</p>}
+
+        {/* Optional: Accept/Reject buttons if supported */}
+        {/* <button onClick={() => handleAcceptOffer(offer.offer_id)}>Accept</button>
+        <button onClick={() => handleRejectOffer(offer.offer_id)}>Reject</button> */}
+      </div>
+    ))}
+  </div>
+</div>
 
     </div>
   );

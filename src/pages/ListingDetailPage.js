@@ -18,6 +18,12 @@ function ListingDetailPage() {
     condition: '',
     price: ''
   });
+const [showOfferModal, setShowOfferModal] = useState(false);
+const [offerPrice, setOfferPrice] = useState('');
+const [offerMessage, setOfferMessage] = useState('');
+
+
+
 
   useEffect(() => {
     if (listing) {
@@ -188,6 +194,44 @@ function ListingDetailPage() {
   if (loading) return <p>Loading...</p>;
   if (!listing) return <p>Listing not found</p>;
 
+
+async function handleSubmitOffer(e) {
+  e.preventDefault();
+  if (!offerPrice.trim()) {
+    alert('Please enter an offer price.');
+    return;
+  }
+  try {
+    const res = await fetch('http://88.200.63.148:4200/offers', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${token}`,
+      },
+      body: JSON.stringify({
+        listing_id: listing.product_id,
+        seller_id: listing.seller_id,
+        offer_price: offerPrice,
+        message: offerMessage,
+      }),
+    });
+
+    if (res.ok) {
+      alert('Offer sent successfully!');
+      setShowOfferModal(false);
+      setOfferPrice('');
+      setOfferMessage('');
+    } else {
+      const errData = await res.json();
+      alert(`Error sending offer: ${errData.message}`);
+    }
+  } catch (err) {
+    console.error('Error sending offer:', err);
+    alert('Failed to send offer.');
+  }
+}
+
+
   return (
       <div className="backg">
   <div className="listing-detail-container">
@@ -215,10 +259,18 @@ function ListingDetailPage() {
     <div className="button-group">
       {user && user.id === listing.seller_id && !isEditing && (
         <>
+         
           <button className="pretty-button" onClick={() => setIsEditing(true)}>Edit</button>
           <button className="pretty-button red" onClick={handleDeleteListing}>Delete</button>
         </>
       )}
+ {user && user.id !== listing.seller_id && (
+    <button className="pretty-button green" onClick={() => setShowOfferModal(true)}>
+      Make Offer
+    </button>
+  )}
+
+
       <button
         className="pretty-button orange"
         onClick={() =>
@@ -327,9 +379,44 @@ function ListingDetailPage() {
 
       </div>
     </div>
+
+      {showOfferModal && (
+        <div className="modal-overlay">
+          <div className="modal-box">
+            <h3>Make an Offer</h3>
+            <form onSubmit={handleSubmitOffer}>
+              <input
+                type="number"
+                placeholder="Offer price"
+                value={offerPrice}
+                onChange={(e) => setOfferPrice(e.target.value)}
+                required
+                style={{ width: '100%', marginBottom: '0.5rem' }}
+              />
+              <textarea
+                placeholder="Message (optional)"
+                value={offerMessage}
+                onChange={(e) => setOfferMessage(e.target.value)}
+                style={{ width: '100%', marginBottom: '0.5rem' }}
+              />
+              <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+                <button type="submit" className="pretty-button green">Send Offer</button>
+                <button type="button" className="pretty-button red" onClick={() => setShowOfferModal(false)}>Cancel</button>
+              </div>
+            </form>
+          </div>
+        </div>
+      )}
+
+
   </div>
   </div>
+
+
+
 );
+
+
 }
 
 function SellerInfo({ sellerId, username }) {
@@ -350,6 +437,7 @@ function SellerInfo({ sellerId, username }) {
       if (profilePic) URL.revokeObjectURL(profilePic);
     };
   }, [sellerId]);
+
 
   return (
     <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
