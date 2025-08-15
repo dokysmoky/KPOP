@@ -1,13 +1,12 @@
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import axios from 'axios';
 import { useAuth } from '../context/AuthContext';
 import { useNavigate } from 'react-router-dom';
 import './CreateListing.css';
-import { useRef } from 'react';
 
 function CreateListing() {
-  const { user, token} = useAuth();
+  const { user, token } = useAuth();
   const navigate = useNavigate();
 
   const [formData, setFormData] = useState({
@@ -19,14 +18,16 @@ function CreateListing() {
   });
   const [imagePreview, setImagePreview] = useState(null);
 
-  const hasCheckedAuth = useRef(false); //this is because there is a pop up twice for the user to log in before creating listing
+  const fileInputRef = useRef(null); // Added ref for file input
+  const hasCheckedAuth = useRef(false);
+
   useEffect(() => {
-  if (!user && !hasCheckedAuth.current) {
-    hasCheckedAuth.current = true;
-    alert("You must be logged in to create a listing.");
-    navigate('/login');
-  }
-}, [user, navigate]);
+    if (!user && !hasCheckedAuth.current) {
+      hasCheckedAuth.current = true;
+      alert("You must be logged in to create a listing.");
+      navigate('/login');
+    }
+  }, [user, navigate]);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -45,6 +46,14 @@ function CreateListing() {
     }
   };
 
+  const handleRemoveImage = () => {
+    setFormData(prev => ({ ...prev, photo: null }));
+    setImagePreview(null);
+    if (fileInputRef.current) {
+      fileInputRef.current.value = ''; // reset the file input so user can re-upload
+    }
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
 
@@ -56,14 +65,14 @@ function CreateListing() {
     if (formData.photo) {
       data.append('photo', formData.photo);
     }
-    
 
     try {
       await axios.post('http://88.200.63.148:4200/listings', data, {
-        headers: { 'Content-Type': 'multipart/form-data',
-         'Authorization': `Bearer ${token}`
-      }
-    });
+        headers: { 
+          'Content-Type': 'multipart/form-data',
+          'Authorization': `Bearer ${token}`
+        }
+      });
       alert('Listing created!');
       setFormData({
         listing_name: '',
@@ -73,6 +82,7 @@ function CreateListing() {
         photo: null,
       });
       setImagePreview(null);
+      if (fileInputRef.current) fileInputRef.current.value = '';
     } catch (err) {
       console.error(err);
       alert('Error creating listing');
@@ -139,6 +149,7 @@ function CreateListing() {
                 name="photo"
                 accept="image/*"
                 onChange={handleFileChange}
+                ref={fileInputRef} 
               />
             </label>
 
@@ -148,10 +159,7 @@ function CreateListing() {
                 <button
                   type="button"
                   className="remove-image-button"
-                  onClick={() => {
-                    setFormData(prev => ({ ...prev, photo: null }));
-                    setImagePreview(null);
-                  }}
+                  onClick={handleRemoveImage} 
                 >
                   &times;
                 </button>

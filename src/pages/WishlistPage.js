@@ -14,7 +14,7 @@ function WishlistPage() {
     console.log('Current user:', user);
     console.log("Calling fetchWishlist...");
     console.log("Auth token:", token);
-console.log("Auth user:", user);
+    console.log("Auth user:", user);
 
  if (!token || !(user?.id || user?.user_id)) return;
 

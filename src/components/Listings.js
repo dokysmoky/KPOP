@@ -33,7 +33,7 @@ function Listing({ listing, user, isLiked, onToggleLike, onAddToCart, onClick, i
                   if (onAddToCart) onAddToCart(listing.product_id);
                 }}
               >
-                <img src="10.png" alt="Add to wishlist" class="icon1"  />
+                <img src="10.png" alt="Add to cart" class="icon1"  />
                 </button>             
 
               {isWishlistItem ? (
@@ -44,7 +44,7 @@ function Listing({ listing, user, isLiked, onToggleLike, onAddToCart, onClick, i
                     if (onRemoveFromWishlist) onRemoveFromWishlist();
                   }}
                 >
-                  Remove from wishlist
+                  <img src="9.png" alt="Remove from wishlist" class="icon" />
                 </button>
               ) : (
                 <button
@@ -54,7 +54,7 @@ function Listing({ listing, user, isLiked, onToggleLike, onAddToCart, onClick, i
                     onToggleLike(listing.product_id);
                   }}
                 >
-                  {isLiked ? <img src="5.png" alt="Add to wishlist" class="icon" /> : <img src="9.png" alt="Remove from wishlist" class="icon" />}
+                  {isLiked ? <img src="9.png" alt="Add to wishlist" class="icon" /> : <img src="5.png" alt="Remove from wishlist" class="icon" />}
                 </button>
               )}
             </div>

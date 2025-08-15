@@ -3,7 +3,7 @@ import { useParams } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import './ListingDetailPage.css';
 
-function ListingDetailPage() {
+function ListingDetailPage({onAddToCart}) {
   const { product_id } = useParams();
   const { user, token } = useAuth();
 
@@ -269,7 +269,16 @@ async function handleSubmitOffer(e) {
       Make Offer
     </button>
   )}
-
+{user && user.id !== listing.seller_id && (
+      <button
+        className="pretty-button orange"
+        onClick={() => {
+          if (onAddToCart) onAddToCart(listing.product_id);
+        }}
+      >
+        <img src="/10.png" alt="Add to cart" class="icon1"  />
+      </button>
+    )}
 
       <button
         className="pretty-button orange"
@@ -372,6 +381,7 @@ async function handleSubmitOffer(e) {
     >
       Post Comment
     </button>
+
   </form>
 ) : (
   <p><a href="/login">Login</a> to post comments.</p>

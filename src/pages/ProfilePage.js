@@ -189,7 +189,7 @@ useEffect(() => {
 
 
 <div className="overlay-image-wrapper">
-    <img src="/5-star.png" alt="Centered Overlay" className="overlay-image" />
+    <img src="./5-Star.png" alt="Centered Overlay" className="overlay-image" />
   </div>
   
     <div className="profile-container">
